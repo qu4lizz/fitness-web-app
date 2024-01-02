@@ -15,9 +15,6 @@ public class AttributeEntity {
     @Column(name = "name")
     private String name;
     @Basic
-    @Column(name = "value")
-    private String value;
-    @Basic
     @Column(name = "id_category")
     private Integer idCategory;
 
@@ -37,14 +34,6 @@ public class AttributeEntity {
         this.name = name;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public Integer getIdCategory() {
         return idCategory;
     }
@@ -58,11 +47,11 @@ public class AttributeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AttributeEntity that = (AttributeEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(value, that.value) && Objects.equals(idCategory, that.idCategory);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, value, idCategory);
+        return Objects.hash(id, name, idCategory);
     }
 }

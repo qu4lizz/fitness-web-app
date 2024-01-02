@@ -37,6 +37,9 @@ public class UserEntity {
     @Basic
     @Column(name = "verified")
     private Boolean verified;
+    @Basic
+    @Column(name = "active")
+    private Boolean active;
     @OneToMany(mappedBy = "idUser")
     private List<ActivityEntity> activities;
     @OneToMany(mappedBy = "instructor")
@@ -116,6 +119,14 @@ public class UserEntity {
 
     public void setVerified(Boolean verified) {
         this.verified = verified;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Override

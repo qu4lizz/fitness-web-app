@@ -31,6 +31,9 @@ public class ProgramEntity {
     @Basic
     @Column(name = "video_url")
     private String videoUrl;
+    @Basic
+    @Column(name = "active")
+    private Boolean active;
     @ManyToOne
     @JoinColumn(name = "id_difficulty", referencedColumnName = "id", nullable = false)
     private DifficultyEntity difficulty;
@@ -101,6 +104,14 @@ public class ProgramEntity {
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Override
