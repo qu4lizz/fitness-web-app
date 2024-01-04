@@ -1,14 +1,21 @@
 package qu4lizz.ip.fitness.server.controllers;
 
 import org.apache.coyote.BadRequestException;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import qu4lizz.ip.fitness.server.models.LoginRequest;
 import qu4lizz.ip.fitness.server.models.MailConfirmationRequest;
+import qu4lizz.ip.fitness.server.models.RssResponse;
 import qu4lizz.ip.fitness.server.models.entities.UserEntity;
 import qu4lizz.ip.fitness.server.services.AuthService;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")

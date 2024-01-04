@@ -1,0 +1,9 @@
+<p-card header="{{ title }}" subheader="Category: {{ category }}" [style]="{ width: '360px', height: '460px' }">
+    <div><b>Description</b></div>
+    <p>
+        {{ description }}
+    </p>
+    <ng-template pTemplate="footer">
+        <p-button label="Go to the page" icon="pi pi-arrow-right" (onClick)="openLink($event)"></p-button>
+    </ng-template>
+</p-card>

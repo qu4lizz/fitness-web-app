@@ -1,0 +1,20 @@
+.title-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bolder;
+    padding: 15px;
+    background-color: var(--highlight-bg);
+}
+
+.flex-responsive {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: baseline;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    padding: 20px;
+    gap: 10px;
+}

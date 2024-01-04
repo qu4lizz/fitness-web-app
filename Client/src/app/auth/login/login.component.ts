@@ -36,12 +36,10 @@ export class LoginComponent {
     this.loading = true;
     this.authService.login(request).subscribe({
       next: (response) => {
-        console.log('n', response);
         this.sessionService.setUID(response as number);
         this.router.navigate(['/']);
       },
       error: (err) => {
-        console.log('e');
         this.messageService.add({
           severity: 'error',
           summary: 'Login failed',
@@ -50,7 +48,6 @@ export class LoginComponent {
         this.loading = false;
       },
       complete: () => {
-        console.log('c');
         this.loading = false;
       },
     });

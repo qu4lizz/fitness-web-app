@@ -4,9 +4,15 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { AppPrimengModule } from '../app-primeng/app-primeng.module';
 import { LayoutComponent } from './layout/layout.component';
+import { RssCardComponent } from './rss-card/rss-card.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { RssFeedComponent } from './rss-feed/rss-feed.component';
+import { TopTenComponent } from './top-ten/top-ten.component';
+import { TopTenCardComponent } from './top-ten-card/top-ten-card.component';
+import { CreateNewProgramComponent } from './create-new-program/create-new-program.component';
 
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [LayoutComponent, RssCardComponent, HomePageComponent, RssFeedComponent, TopTenComponent, TopTenCardComponent, CreateNewProgramComponent],
   imports: [CommonModule, HomeRoutingModule, AppPrimengModule],
 })
 export class HomeModule {}

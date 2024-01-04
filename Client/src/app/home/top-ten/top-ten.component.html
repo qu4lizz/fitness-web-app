@@ -1,0 +1,10 @@
+<div class="title-center">Top 10 Exercises Today</div>
+<div class="flex-responsive">
+    @for(exercise of exercises; track exercise.name) {
+        <app-top-ten-card
+            difficulty="{{ exercise.difficulty }}"
+            instructions="{{ exercise.instructions }}"
+            name="{{ exercise.name }}"
+        ></app-top-ten-card>
+    }
+</div>
