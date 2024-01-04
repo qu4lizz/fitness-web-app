@@ -1,7 +1,9 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
 import jakarta.persistence.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -48,6 +50,25 @@ public class UserEntity {
     private List<UserParticipatesProgramEntity> userParticipatedPrograms;
     @OneToMany(mappedBy = "idUser")
     private List<UserSubscribeCategoryEntity> userSubscribedCategories;
+
+    public UserEntity() {}
+
+    public UserEntity(String name, String surname, String username, String password, String mail, String city, MultipartFile image) {
+        this.name = name;
+        this.surname = surname;
+        this.city = city;
+        this.mail = mail;
+        this.username = username;
+        this.password = password;
+        active = true;
+        verified = false;
+        try {
+            if (image != null)
+                this.image = image.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Integer getId() {
         return id;

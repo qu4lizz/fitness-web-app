@@ -19,6 +19,13 @@ public class LogEntity {
     @Column(name = "datetime")
     private Timestamp datetime;
 
+    public LogEntity() {}
+
+    public LogEntity(String text, Timestamp datetime) {
+        this.text = text;
+        this.datetime = datetime;
+    }
+
     public Long getId() {
         return id;
     }

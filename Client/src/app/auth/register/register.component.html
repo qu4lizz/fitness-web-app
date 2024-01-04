@@ -1,0 +1,39 @@
+<p-card header="Register" class="card" [style]="{'text-align':'center'}">
+    <form [formGroup]="form" class="form">
+        <div class="responsive-div">
+            <span class="p-float-label">
+                <input pInputText formControlName="name" class="input" />
+                <label for="username">Name</label>
+            </span>
+            <span class="p-float-label">
+                <input pInputText formControlName="surname" class="input" />
+                <label for="username">Surname</label>
+            </span>
+        </div>
+        <div class="responsive-div">
+            <span class="p-float-label">
+                <input pInputText formControlName="city" class="input" />
+                <label for="username">City</label>
+            </span>
+            <span class="p-float-label">
+                <input pInputText formControlName="mail" class="input" />
+                <label for="username">Email</label>
+            </span>
+        </div>
+        <div class="responsive-div">
+            <span class="p-float-label">
+                <input pInputText formControlName="username" class="input" />
+                <label for="username">Username</label>
+            </span>
+            <span class="p-float-label">
+                <p-password formControlName="password" [feedback]="false" [toggleMask]="true"
+                    [inputStyle]="{'width':'20rem'}"></p-password>
+                <label for="password">Password</label>
+            </span>
+        </div>
+        <p-fileUpload mode="basic" accept="image/*" (onSelect)="onImageSelect($event)" chooseLabel="Your Picture"></p-fileUpload>
+
+        <p-button class="button-margin" label="Submit" [loading]="loading" (onClick)="submit()"></p-button>
+    </form>
+    <p-toast [breakpoints]="{'960px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+</p-card>
