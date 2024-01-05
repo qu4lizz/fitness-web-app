@@ -3,12 +3,11 @@ package qu4lizz.ip.fitness.server.services;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import qu4lizz.ip.fitness.server.models.LoginRequest;
+import qu4lizz.ip.fitness.server.models.requests.LoginRequest;
 import qu4lizz.ip.fitness.server.models.entities.UserEntity;
 import qu4lizz.ip.fitness.server.repositories.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AuthService {

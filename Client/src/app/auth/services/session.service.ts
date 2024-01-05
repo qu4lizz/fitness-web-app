@@ -13,7 +13,7 @@ export class SessionService {
     const stored = localStorage.getItem(this.key);
 
     if (stored) {
-      this.userId = JSON.parse(stored);
+      this.userId = JSON.parse(stored).userId;
     }
   }
 
@@ -23,6 +23,7 @@ export class SessionService {
 
   public setUID(num: number) {
     this.userId = num;
+    localStorage.setItem(this.key, JSON.stringify({ userId: num }));
     this.emitSessionStateChanged();
   }
 

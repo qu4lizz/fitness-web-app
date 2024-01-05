@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 import { SessionService } from '../auth/services/session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,7 @@ export class NavbarComponent {
   items: MenuItem[] | undefined;
   private session: SessionService;
 
-  constructor(private sessionService: SessionService) {
+  constructor(private sessionService: SessionService, private router: Router) {
     this.session = sessionService;
   }
 
@@ -56,7 +57,7 @@ export class NavbarComponent {
             {
               label: 'My Programs',
               icon: PrimeIcons.USER_EDIT,
-              routerLink: '/my-prprofileograms',
+              routerLink: '/my-programs',
             },
             {
               label: 'Programs Participation',
@@ -92,7 +93,10 @@ export class NavbarComponent {
             {
               label: 'Logout',
               icon: PrimeIcons.SIGN_OUT,
-              command: () => this.sessionService.removeUID(),
+              command: () => {
+                this.sessionService.removeUID();
+                this.router.navigate(['']);
+              },
             },
           ],
         },

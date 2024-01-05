@@ -1,10 +1,12 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "category", schema = "public", catalog = "fitness")
 public class CategoryEntity {
@@ -22,21 +24,7 @@ public class CategoryEntity {
     @OneToMany(mappedBy = "idCategory")
     private List<UserSubscribeCategoryEntity> userSubscribeCategories;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    public CategoryEntity() {}
 
     @Override
     public boolean equals(Object o) {
@@ -51,27 +39,4 @@ public class CategoryEntity {
         return Objects.hash(id, name);
     }
 
-    public List<AttributeEntity> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(List<AttributeEntity> attributes) {
-        this.attributes = attributes;
-    }
-
-    public List<ProgramEntity> getPrograms() {
-        return programs;
-    }
-
-    public void setPrograms(List<ProgramEntity> programs) {
-        this.programs = programs;
-    }
-
-    public List<UserSubscribeCategoryEntity> getUserSubscribeCategories() {
-        return userSubscribeCategories;
-    }
-
-    public void setUserSubscribeCategories(List<UserSubscribeCategoryEntity> userSubscribeCategories) {
-        this.userSubscribeCategories = userSubscribeCategories;
-    }
 }

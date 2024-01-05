@@ -73,11 +73,17 @@ export class RegisterComponent {
           this.messageService.add({
             severity: 'error',
             summary: 'Registration failed',
-            detail: 'An error occurred during registration.',
+            detail: 'An error occurred during registration',
           });
           this.loading = false;
         },
         complete: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Registration succeed',
+            detail:
+              'You have created acoount successfully, please verify it on Email',
+          });
           this.loading = false;
         },
       });

@@ -1,6 +1,7 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "user", schema = "public", catalog = "fitness")
 public class UserEntity {
@@ -70,86 +72,6 @@ public class UserEntity {
         }
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public Boolean getVerified() {
-        return verified;
-    }
-
-    public void setVerified(Boolean verified) {
-        this.verified = verified;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -163,37 +85,5 @@ public class UserEntity {
         int result = Objects.hash(id, name, surname, city, username, password, mail, verified);
         result = 31 * result + Arrays.hashCode(image);
         return result;
-    }
-
-    public List<ActivityEntity> getActivities() {
-        return activities;
-    }
-
-    public void setActivities(List<ActivityEntity> activities) {
-        this.activities = activities;
-    }
-
-    public List<ProgramEntity> getCreatedPrograms() {
-        return createdPrograms;
-    }
-
-    public void setCreatedPrograms(List<ProgramEntity> createdPrograms) {
-        this.createdPrograms = createdPrograms;
-    }
-
-    public List<UserParticipatesProgramEntity> getUserParticipatedPrograms() {
-        return userParticipatedPrograms;
-    }
-
-    public void setUserParticipatedPrograms(List<UserParticipatesProgramEntity> userParticipatedPrograms) {
-        this.userParticipatedPrograms = userParticipatedPrograms;
-    }
-
-    public List<UserSubscribeCategoryEntity> getUserSubscribedCategories() {
-        return userSubscribedCategories;
-    }
-
-    public void setUserSubscribedCategories(List<UserSubscribeCategoryEntity> userSubscribedCategories) {
-        this.userSubscribedCategories = userSubscribedCategories;
     }
 }

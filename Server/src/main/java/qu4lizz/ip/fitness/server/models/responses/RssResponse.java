@@ -1,4 +1,4 @@
-package qu4lizz.ip.fitness.server.models;
+package qu4lizz.ip.fitness.server.models.responses;
 
 public class RssResponse {
     private String value;

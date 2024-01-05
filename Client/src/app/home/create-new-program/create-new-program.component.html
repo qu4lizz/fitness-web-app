@@ -1,1 +1,60 @@
-<p>create-new-program works!</p>
+<div class="flex-center">
+    <p-card header="Create New Program" class="card" [style]="{'text-align':'center'}">
+        <form [formGroup]="form" class="form">
+            <div class="responsive-div">
+                <span class="p-float-label">
+                    <input pInputText formControlName="name" class="input" id="name" />
+                    <label for="name">Name</label>
+                </span>
+                <span class="p-float-label">
+                    <p-inputNumber formControlName="price" [inputStyle]="{'width':'20rem'}" mode="currency"
+                        inputId="currency-germany" currency="EUR" locale="de-DE" id="price"> </p-inputNumber>
+                    <label for="price">Price</label>
+                </span>
+            </div>
+            <div class="responsive-div">
+                <span class="p-float-label">
+                    <p-calendar formControlName="start" [inputStyle]="{'width':'20rem'}" inputId="start"
+                        [minDate]="minDate"></p-calendar>
+                    <label for="start">Start</label>
+                </span>
+                <span class="p-float-label">
+                    <p-inputNumber inputId="duration" formControlName="duration" [inputStyle]="{'width':'20rem'}"> </p-inputNumber>
+                    <label for="duration">Duration (Days)</label>
+                </span>
+            </div>
+            <div class="responsive-div">
+                <span class="p-float-label">
+                    <textarea id="float-input" formControlName="description" rows="7" class="input" pInputTextarea></textarea>
+                    <label for="float-input">Description</label>
+                </span>
+                <span class="beside-textarea">
+                    <div class="p-float-label">
+                        <input pInputText formControlName="location" class="input" id="location" />
+                        <label for="location">Location</label>
+                    </div>
+                    @if (form.get('location')?.value?.toLowerCase() === 'online') {
+                        <div class="p-float-label">
+                            <input pInputText formControlName="url" class="input" id="url" />
+                            <label for="url">YouTube URL</label>
+                        </div>
+                    }
+                </span>
+            </div>
+            <div class="responsive-div">
+                <span class="p-float-label">
+                    <p-dropdown [options]="difficulties" [style]="{'width':'20rem'}" formControlName="idDifficulty" placeholder="Difficulty" optionLabel="name" optionValue="id" inputId="float-label-d"></p-dropdown>
+                    <label for="float-label-d">Select a Difficulty</label>
+                </span>
+                <span class="p-float-label">
+                    <p-dropdown [options]="categories" [style]="{'width':'20rem'}" formControlName="idCategory" placeholder="Category" optionLabel="name" optionValue="id" inputId="float-label-c"></p-dropdown>
+                    <label for="float-label-c">Select a Category</label>
+                </span>
+            </div>
+            <p-fileUpload mode="basic" accept="image/*" (onSelect)="onImageSelect($event)" [multiple]="true" chooseLabel="Program images"></p-fileUpload>
+
+
+            <p-button class="button-margin" label="Create" [loading]="loading" (onClick)="submit()"></p-button>
+        </form>
+    </p-card>
+</div>

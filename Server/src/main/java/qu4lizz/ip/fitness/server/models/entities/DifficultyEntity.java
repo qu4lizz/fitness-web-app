@@ -1,9 +1,11 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "difficulty", schema = "public", catalog = "fitness")
 public class DifficultyEntity {
@@ -15,21 +17,7 @@ public class DifficultyEntity {
     @Column(name = "name")
     private String name;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    public  DifficultyEntity() {}
 
     @Override
     public boolean equals(Object o) {

@@ -1,10 +1,12 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Arrays;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "program_image", schema = "public", catalog = "fitness")
 public class ProgramImageEntity {
@@ -18,30 +20,6 @@ public class ProgramImageEntity {
     @Basic
     @Column(name = "id_program")
     private Integer idProgram;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public Integer getIdProgram() {
-        return idProgram;
-    }
-
-    public void setIdProgram(Integer idProgram) {
-        this.idProgram = idProgram;
-    }
 
     @Override
     public boolean equals(Object o) {

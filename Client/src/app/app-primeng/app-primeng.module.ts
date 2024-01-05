@@ -7,6 +7,9 @@ import { CardModule } from 'primeng/card';
 import { MenubarModule } from 'primeng/menubar';
 import { FileUploadModule } from 'primeng/fileupload';
 import { PanelModule } from 'primeng/panel';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
 
 const primengModules = [
   InputTextModule,
@@ -17,6 +20,9 @@ const primengModules = [
   MenubarModule,
   FileUploadModule,
   PanelModule,
+  InputNumberModule,
+  CalendarModule,
+  DropdownModule,
 ];
 
 @NgModule({
