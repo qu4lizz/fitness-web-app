@@ -10,8 +10,9 @@ const baseUrl = environment.API_URL + 'programs';
 export class ProgramService {
   constructor(private http: HttpClient) {}
 
-  public getAll() {
-    return this.http.get(baseUrl);
+  public getAll(queryString: string) {
+    console.log(baseUrl + queryString);
+    return this.http.get(baseUrl + queryString);
   }
 
   public create(program: any) {

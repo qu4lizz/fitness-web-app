@@ -1,11 +1,15 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "difficulty", schema = "public", catalog = "fitness")
 public class DifficultyEntity {
@@ -16,8 +20,6 @@ public class DifficultyEntity {
     @Basic
     @Column(name = "name")
     private String name;
-
-    public  DifficultyEntity() {}
 
     @Override
     public boolean equals(Object o) {

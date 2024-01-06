@@ -16,10 +16,12 @@ export class RssFeedComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get(this.RSS_URL).subscribe((data: any) => {
-      this.parser.parseString(data.value).then((res) => {
-        this.feed = res;
-        //console.log(res);
-      });
+      if (data) {
+        this.parser.parseString(data.value).then((res) => {
+          this.feed = res;
+          //console.log(res);
+        });
+      }
     });
   }
 }

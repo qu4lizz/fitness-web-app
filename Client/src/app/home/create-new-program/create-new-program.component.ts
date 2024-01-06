@@ -86,7 +86,6 @@ export class CreateNewProgramComponent implements OnInit {
         formData.append('programImages[]', image, image.name);
       });
     }
-    console.log(formData);
 
     if (this.form.valid && this.image) {
       this.programService.create(formData).subscribe({

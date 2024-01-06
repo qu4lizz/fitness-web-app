@@ -10,6 +10,9 @@ import { PanelModule } from 'primeng/panel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { DataViewModule } from 'primeng/dataview';
+import { TagModule } from 'primeng/tag';
+import { PaginatorModule } from 'primeng/paginator';
 
 const primengModules = [
   InputTextModule,
@@ -23,6 +26,9 @@ const primengModules = [
   InputNumberModule,
   CalendarModule,
   DropdownModule,
+  DataViewModule,
+  TagModule,
+  PaginatorModule,
 ];
 
 @NgModule({

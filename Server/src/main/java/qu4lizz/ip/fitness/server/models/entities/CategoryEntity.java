@@ -1,5 +1,6 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,12 +20,12 @@ public class CategoryEntity {
     private String name;
     @OneToMany(mappedBy = "idCategory")
     private List<AttributeEntity> attributes;
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<ProgramEntity> programs;
+    @JsonIgnore
     @OneToMany(mappedBy = "idCategory")
     private List<UserSubscribeCategoryEntity> userSubscribeCategories;
-
-    public CategoryEntity() {}
 
     @Override
     public boolean equals(Object o) {

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { CreateNewProgramComponent } from './create-new-program/create-new-program.component';
+import { ProgramsComponent } from './programs/programs.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
     children: [
       { path: '', component: HomePageComponent },
       { path: 'programs/create-new', component: CreateNewProgramComponent },
+      { path: 'programs', component: ProgramsComponent },
     ],
   },
 ];

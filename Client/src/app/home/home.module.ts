@@ -12,6 +12,7 @@ import { TopTenCardComponent } from './top-ten-card/top-ten-card.component';
 import { CreateNewProgramComponent } from './create-new-program/create-new-program.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProgramsComponent } from './programs/programs.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     TopTenComponent,
     TopTenCardComponent,
     CreateNewProgramComponent,
+    ProgramsComponent,
   ],
   imports: [
     CommonModule,

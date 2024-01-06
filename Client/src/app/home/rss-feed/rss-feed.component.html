@@ -1,11 +1,13 @@
 <div class="title-center">{{ feed.title }}</div>
 <div class="flex-responsive">
-    @for(item of feed.items; track item.link) {
-        <app-rss-card 
-            category="{{ item.categories[0] }}" 
-            description="{{ item.content }}"
-            link="{{ item.link }}"
-            title="{{ item.title }}"
-        ></app-rss-card>
+    @if (feed) {
+        @for (item of feed.items; track item.link) {
+            <app-rss-card 
+                category="{{ item.categories[0] }}" 
+                description="{{ item.content }}"
+                link="{{ item.link }}"
+                title="{{ item.title }}"
+            ></app-rss-card>
+        }
     }
 </div>

@@ -1,16 +1,20 @@
 package qu4lizz.ip.fitness.server.services;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import qu4lizz.ip.fitness.server.config.converters.ProgramImageListConverter;
 import qu4lizz.ip.fitness.server.models.entities.*;
 import qu4lizz.ip.fitness.server.models.requests.ProgramCreateRequest;
+import qu4lizz.ip.fitness.server.models.responses.ProgramDataViewResponse;
 import qu4lizz.ip.fitness.server.repositories.*;
 
 import java.io.IOException;
-import java.util.List;
 
 @Service
 public class ProgramService {
@@ -26,9 +30,22 @@ public class ProgramService {
         this.modelMapper = mapper;
     }
 
-    public List<ProgramEntity> findAll() {
-        return repository.findAll();
+    public Page<ProgramDataViewResponse> findAll(String idCategory, String idDifficulty, Pageable page) {
+        Page<ProgramEntity> resultPage;
+
+        if (idCategory != null && idDifficulty != null) {
+            resultPage = repository.findAllByDifficultyIdAndCategoryId(page, Integer.parseInt(idDifficulty), Integer.parseInt(idCategory));
+        } else if (idCategory != null) {
+            resultPage = repository.findAllByCategoryId(page, Integer.parseInt(idCategory));
+        } else if (idDifficulty != null) {
+            resultPage = repository.findAllByDifficultyId(page, Integer.parseInt(idDifficulty));
+        } else {
+            resultPage = repository.findAll(page);
+        }
+
+        return resultPage.map(e -> modelMapper.map(e, ProgramDataViewResponse.class));
     }
+
 
     public void create(ProgramCreateRequest programRequest) {
         ProgramEntity programEntity = modelMapper.map(programRequest, ProgramEntity.class);

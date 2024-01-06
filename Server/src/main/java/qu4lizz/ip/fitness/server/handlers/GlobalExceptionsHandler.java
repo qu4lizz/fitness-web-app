@@ -37,7 +37,7 @@ public class GlobalExceptionsHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public final ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e, HandlerMethod handlerMethod) {
-        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpException.class)
@@ -53,7 +53,7 @@ public class GlobalExceptionsHandler {
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleException(Exception e, HandlerMethod handlerMethod) {
         //LoggingUtil.logException(e, getLog(handlerMethod));
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private Log getLog(HandlerMethod handlerMethod) {
