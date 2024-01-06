@@ -13,6 +13,8 @@ import { CreateNewProgramComponent } from './create-new-program/create-new-progr
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProgramsComponent } from './programs/programs.component';
+import { AllProgramsComponent } from './all-programs/all-programs.component';
+import { MyProgramsComponent } from './my-programs/my-programs.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { ProgramsComponent } from './programs/programs.component';
     TopTenCardComponent,
     CreateNewProgramComponent,
     ProgramsComponent,
+    AllProgramsComponent,
+    MyProgramsComponent,
   ],
   imports: [
     CommonModule,

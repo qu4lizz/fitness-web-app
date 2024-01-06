@@ -11,11 +11,18 @@ export class ProgramService {
   constructor(private http: HttpClient) {}
 
   public getAll(queryString: string) {
-    console.log(baseUrl + queryString);
     return this.http.get(baseUrl + queryString);
+  }
+
+  public getAllByMe(queryString: string) {
+    return this.http.get(baseUrl + '/my' + queryString);
   }
 
   public create(program: any) {
     return this.http.post(baseUrl, program);
+  }
+
+  public delete(id: number) {
+    return this.http.delete(baseUrl + `/${id}`);
   }
 }
