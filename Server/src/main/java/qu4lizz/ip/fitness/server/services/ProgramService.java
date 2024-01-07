@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import qu4lizz.ip.fitness.server.config.converters.ProgramImageListConverter;
 import qu4lizz.ip.fitness.server.models.entities.*;
+import qu4lizz.ip.fitness.server.models.requests.CommentRequest;
 import qu4lizz.ip.fitness.server.models.requests.ProgramCreateRequest;
 import qu4lizz.ip.fitness.server.models.responses.ProgramDataViewResponse;
+import qu4lizz.ip.fitness.server.models.responses.ProgramDetailsResponse;
 import qu4lizz.ip.fitness.server.repositories.*;
 
 import java.io.IOException;
@@ -25,12 +27,14 @@ public class ProgramService {
     private final ProgramRepository repository;
     private final UserRepository userRepository;
     private final ProgramImageRepository programImageRepository;
+    private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
 
-    public ProgramService(ProgramRepository repository, UserRepository userRepository, ProgramImageRepository programImageRepository, ModelMapper mapper) {
+    public ProgramService(ProgramRepository repository, UserRepository userRepository, ProgramImageRepository programImageRepository, CommentRepository commentRepository, ModelMapper mapper) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.programImageRepository = programImageRepository;
+        this.commentRepository = commentRepository;
         this.modelMapper = mapper;
     }
 
@@ -50,6 +54,12 @@ public class ProgramService {
                         idDifficulty != null ? Integer.parseInt(idDifficulty) : null, dateFilter ? Instant.now() : null, "completed".equals(dateStatus)), page);
 
         return resultPage.map(e -> modelMapper.map(e, ProgramDataViewResponse.class));
+    }
+
+    public ProgramDetailsResponse findById(Integer id) throws ChangeSetPersister.NotFoundException {
+        ProgramEntity entity = repository.findByIdAndActive(id, true).orElseThrow(ChangeSetPersister.NotFoundException::new);
+
+        return modelMapper.map(entity, ProgramDetailsResponse.class);
     }
 
     public static Specification<ProgramEntity> findByCriteria(Integer idUser, Integer idCategory, Integer idDifficulty, Instant start, Boolean isBefore) {
@@ -110,5 +120,13 @@ public class ProgramService {
         programEntity.setActive(false);
 
         repository.save(programEntity);
+    }
+
+    public void addComment(CommentRequest commentRequest) throws ChangeSetPersister.NotFoundException {
+        repository.findById(commentRequest.getIdProgram()).orElseThrow(ChangeSetPersister.NotFoundException::new);
+
+        UserCommentProgramEntity commentEntity = modelMapper.map(commentRequest, UserCommentProgramEntity.class);
+
+        commentRepository.save(commentEntity);
     }
 }

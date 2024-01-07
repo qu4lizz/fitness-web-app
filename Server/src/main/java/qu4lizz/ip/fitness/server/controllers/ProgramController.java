@@ -4,8 +4,11 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import qu4lizz.ip.fitness.server.models.entities.ProgramEntity;
+import qu4lizz.ip.fitness.server.models.requests.CommentRequest;
 import qu4lizz.ip.fitness.server.models.requests.ProgramCreateRequest;
 import qu4lizz.ip.fitness.server.models.responses.ProgramDataViewResponse;
+import qu4lizz.ip.fitness.server.models.responses.ProgramDetailsResponse;
 import qu4lizz.ip.fitness.server.services.ProgramService;
 
 @RestController
@@ -23,6 +26,11 @@ public class ProgramController {
                                                  Pageable page) {
 
         return programService.findAll(idCategory, idDifficulty, page);
+    }
+
+    @GetMapping("/{id}")
+    public ProgramDetailsResponse findById(@PathVariable Integer id) throws ChangeSetPersister.NotFoundException {
+        return programService.findById(id);
     }
 
     @PostMapping(consumes = "multipart/form-data")
@@ -43,5 +51,10 @@ public class ProgramController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) throws ChangeSetPersister.NotFoundException {
         programService.delete(id);
+    }
+
+    @PostMapping("/comments")
+    public void addComment(@RequestBody CommentRequest commentRequest) throws ChangeSetPersister.NotFoundException {
+        programService.addComment(commentRequest);
     }
 }

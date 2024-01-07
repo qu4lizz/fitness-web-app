@@ -1,0 +1,141 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { SessionService } from '../../auth/services/session.service';
+import { ProgramService } from '../services/program.service';
+import { ActivatedRoute } from '@angular/router';
+import {
+  ProgramDetailsResponse as ProgramDetails,
+  UserCommentDTO,
+} from '../../models/models';
+import { UtilFunctions } from '../../utils/functions';
+import { MessageService } from 'primeng/api';
+
+@Component({
+  selector: 'app-program-details',
+  templateUrl: './program-details.component.html',
+  styleUrl: './program-details.component.css',
+})
+export class ProgramDetailsComponent implements OnInit {
+  id!: number;
+
+  isLogged!: boolean;
+  @ViewChild('comment') commentTextarea!: ElementRef;
+  program!: ProgramDetails;
+
+  price!: string;
+  images: any[] = [];
+  comments!: UserCommentDTO[];
+
+  responsiveOptions!: any[];
+
+  constructor(
+    public utilFunctions: UtilFunctions,
+    private sessionService: SessionService,
+    private programService: ProgramService,
+    private route: ActivatedRoute,
+    private messageService: MessageService
+  ) {}
+
+  ngOnInit(): void {
+    this.isLogged = this.sessionService.getUID() !== null;
+
+    this.route.params.subscribe((params) => {
+      this.id = params['id'];
+
+      this.reloadPage();
+
+      this.responsiveOptions = [
+        {
+          breakpoint: '1024px',
+          numVisible: 5,
+        },
+        {
+          breakpoint: '768px',
+          numVisible: 3,
+        },
+        {
+          breakpoint: '560px',
+          numVisible: 1,
+        },
+      ];
+    });
+  }
+
+  reloadPage() {
+    if (this.id) {
+      this.programService.getById(this.id).subscribe({
+        next: (res: any) => {
+          this.program = res;
+          console.log(res);
+
+          this.price = this.program.price + '€';
+
+          this.comments = this.program.comments.sort(
+            (c1, c2) =>
+              new Date(c1.timestamp).getTime() -
+              new Date(c2.timestamp).getTime()
+          );
+
+          this.program.programImages.forEach((img) =>
+            this.images.push(this.utilFunctions.getImageSrc(img.image))
+          );
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
+    }
+  }
+
+  submitComment(text: string) {
+    if (!text || text.trim().length == 0) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Comment Error',
+        detail: 'Comment has to have content',
+      });
+      return;
+    }
+
+    this.programService
+      .addComment({
+        idUser: this.sessionService.getUID(),
+        comment: text,
+        timestamp: new Date(),
+        idProgram: this.program.id,
+      })
+      .subscribe({
+        error: (err: any) => {
+          console.log(err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Comment Error',
+            detail: 'Comment has to have content',
+          });
+        },
+        complete: () => {
+          this.commentTextarea.nativeElement.value = '';
+          this.reloadPage();
+        },
+      });
+  }
+
+  canShowVideoURL(program: ProgramDetails) {
+    if (program.videoUrl && new Date(program.start) < new Date()) {
+      return true;
+    }
+    return false;
+  }
+
+  getSeverity(difficultyName: string) {
+    switch (difficultyName.toLowerCase()) {
+      case 'beginner':
+        return 'success';
+      case 'intermediate':
+        return 'warning';
+      case 'expert':
+        return 'danger';
+      default:
+        return undefined;
+    }
+  }
+}

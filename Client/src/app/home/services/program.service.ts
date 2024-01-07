@@ -25,4 +25,12 @@ export class ProgramService {
   public delete(id: number) {
     return this.http.delete(baseUrl + `/${id}`);
   }
+
+  public getById(id: number) {
+    return this.http.get(baseUrl + `/${id}`);
+  }
+
+  public addComment(obj: any) {
+    return this.http.post(baseUrl + '/comments', obj);
+  }
 }

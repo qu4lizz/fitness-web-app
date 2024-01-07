@@ -62,9 +62,102 @@ export class ProgramImage {
   }
 }
 
-export interface PageEvent {
-  first: number;
-  rows: number;
-  page: number;
-  pageCount: number;
+export class ProgramDetailsResponse {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  duration: number;
+  start: Date;
+  location: string;
+  videoUrl: string;
+  active: boolean;
+  difficulty: Difficulty;
+  category: Category;
+  instructor: User;
+  programImages: ProgramImage[];
+  comments: UserCommentDTO[];
+
+  constructor(
+    id: number,
+    name: string,
+    description: string,
+    price: number,
+    duration: number,
+    start: Date,
+    location: string,
+    videoUrl: string,
+    active: boolean,
+    difficulty: Difficulty,
+    category: Category,
+    instructor: User,
+    programImages: ProgramImage[],
+    comments: UserCommentDTO[]
+  ) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.price = price;
+    this.duration = duration;
+    this.start = start;
+    this.location = location;
+    this.videoUrl = videoUrl;
+    this.active = active;
+    this.difficulty = difficulty;
+    this.category = category;
+    this.instructor = instructor;
+    this.programImages = programImages;
+    this.comments = comments;
+  }
+}
+
+export class User {
+  id: number;
+  name: string;
+  surname: string;
+  city: string;
+  username: string;
+  password: string;
+  mail: string;
+  image: number[];
+  verified: boolean;
+  active: boolean;
+
+  constructor(
+    id: number,
+    name: string,
+    surname: string,
+    city: string,
+    username: string,
+    password: string,
+    mail: string,
+    image: number[],
+    verified: boolean,
+    active: boolean
+  ) {
+    this.id = id;
+    this.name = name;
+    this.surname = surname;
+    this.city = city;
+    this.username = username;
+    this.password = password;
+    this.mail = mail;
+    this.image = image;
+    this.verified = verified;
+    this.active = active;
+  }
+}
+
+export class UserCommentDTO {
+  user: User;
+  id: number;
+  comment: string;
+  timestamp: string;
+
+  constructor(user: User, id: number, comment: string, timestamp: string) {
+    this.user = user;
+    this.id = id;
+    this.comment = comment;
+    this.timestamp = timestamp;
+  }
 }

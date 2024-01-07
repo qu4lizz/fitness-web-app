@@ -1,0 +1,81 @@
+<div class="flex justify-content-center mt-4">
+    <div class="card flex justify-content-center">
+        <p-card [header]="program.name" [subheader]="price" [style]="{ maxWidth: '640px'}">
+            <div class="flex flex-column gap-4 height-fixed md:flex-row justify-content-center align-items-center flex-grow-1 mb-5">
+                <p-button [style]="{ width: '260px'}" label="Buy Program" icon="pi pi-shopping-cart"></p-button>
+                <p-button [style]="{ width: '260px'}" label="Message Instructor" icon="pi pi-comments"></p-button>
+            </div>
+            <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px' }" [numVisible]="7" [circular]="true">
+                <ng-template pTemplate="item" let-item>
+                    <img [src]="item" style="width: 100%; display: block;" />
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid grid-nogutter justify-content-center">
+                        <img [src]="item" style="display: block;" class="w-10rem"/>
+                    </div>
+                </ng-template>
+            </p-galleria>
+            <div class="text-center p-4 text-2xl">"<i>{{ program.description }}</i>"</div>
+            <div class="flex flex-column gap-4 height-fixed md:flex-row">
+                <p-card header="Instructor" subheader="{{program.instructor.name}} {{program.instructor.surname}}" class="flex flex-grow-1 justify-content-center align-items-center" [style]="{ width: '260px', height: '300px' }">
+                        @if (program.instructor.image) {
+                            <img [src]="utilFunctions.getImageSrc(program.instructor.image)" width="180px" height="180px" style="object-fit: cover; border-radius: 100px;">
+                        } 
+                        @else {
+                            <img src="https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg" width="128px" height="128px" style="object-fit: cover; border-radius: 80px;">
+                        }
+                </p-card>
+                <p-card header="Program Info" subheader="Category: {{ program.category.name }}" class="flex flex-grow-1 justify-content-center align-items-center height-fixed" [style]="{ width: '260px', height: '300px' }">
+                    <p>Starting {{ utilFunctions.formatDate(program.start) }}</p>
+                    <p>Duration: {{ program.duration }} days</p>
+                    <span>Level: </span><p-tag [value]="program.difficulty.name" [severity]="getSeverity(program.difficulty.name)"></p-tag>
+                    <p>Location: {{ program.location }}</p>
+                </p-card>
+            </div>
+            @if (canShowVideoURL(program)) {
+                <p-divider align="center" type="solid">
+                    <b class="text-2xl">Video</b>
+                </p-divider>
+                <div class="container">
+                    <iframe class="responsive-iframe" [src]="program.videoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            }
+            <p-divider align="center" type="solid">
+                <b class="text-2xl">Comments</b>
+            </p-divider>
+            @if (comments.length === 0) {
+                <p class="flex justify-content-center align-items-center m-5 text-lg">There are no comments on this program</p>
+            }
+            @for (comment of comments; track comment.id) {
+                <div class="card">
+                    <p-messages severity="info" [style]="{ width: '100%'}">
+                        <ng-template pTemplate>
+                            @if (comment.user.image) {
+                                <p-avatar [image]="utilFunctions.getImageSrc(comment.user.image)" styleClass="mr-2" size="xlarge" shape="circle"></p-avatar>
+                            } @else {
+                                <p-avatar [label]="comment.user.name.slice(0, 1)" styleClass="mr-2" size="xlarge" shape="circle" [style]="{ 'background-color': '#2196F3', color: '#ffffff' }"></p-avatar>
+                            }
+                            <div class="ml-2">
+                                <div class="text-lg font-bold">
+                                    {{ comment.user.name }} {{ comment.user.surname }}
+                                </div>
+                                <div class="text-lg text-900">
+                                    {{ this.utilFunctions.formatDateWithDay(comment.timestamp) }}
+                                </div>
+                                <p class="text-900">
+                                    {{ comment.comment }}
+                                </p>
+                            </div>
+                        </ng-template>
+                    </p-messages>
+                </div>
+            }
+            @if (isLogged) {
+                <div class="flex flex-grow-1 justify-content-center align-items-center flex-column gap-4 mt-6">
+                    <textarea #comment rows="5" style="width: 80%; font-size: large; padding: 10px;" pInputTextarea autoResize="true" placeholder="Leave a Comment"></textarea>
+                    <p-button label="Submit Comment" (onClick)="submitComment(comment.value)"></p-button>
+                </div>
+            }
+        </p-card>
+    </div>
+</div>

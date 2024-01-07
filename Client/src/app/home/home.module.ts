@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProgramsComponent } from './programs/programs.component';
 import { AllProgramsComponent } from './all-programs/all-programs.component';
 import { MyProgramsComponent } from './my-programs/my-programs.component';
+import { ProgramDetailsComponent } from './program-details/program-details.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MyProgramsComponent } from './my-programs/my-programs.component';
     ProgramsComponent,
     AllProgramsComponent,
     MyProgramsComponent,
+    ProgramDetailsComponent,
   ],
   imports: [
     CommonModule,

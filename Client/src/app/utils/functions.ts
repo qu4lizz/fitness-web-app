@@ -30,7 +30,7 @@ export class UtilFunctions {
     return `data:image/${imageType};base64,${base64Image}`;
   }
 
-  public convertBlobToUrl(image: Blob): string {
-    return URL.createObjectURL(image);
+  formatDateWithDay(date: string, format: string = 'dd.MM.yyyy. hh:mm') {
+    return this.datePipe.transform(new Date(date), format);
   }
 }

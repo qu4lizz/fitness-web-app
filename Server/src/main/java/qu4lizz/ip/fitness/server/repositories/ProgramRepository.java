@@ -7,7 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import qu4lizz.ip.fitness.server.models.entities.ProgramEntity;
 
 import java.time.Instant;
+import java.util.Optional;
 
 public interface ProgramRepository extends JpaRepository<ProgramEntity, Integer> {
     Page<ProgramEntity> findAll(Specification<ProgramEntity> spec, Pageable pageable);
+
+    Optional<ProgramEntity> findByIdAndActive(Integer id, Boolean active);
 }

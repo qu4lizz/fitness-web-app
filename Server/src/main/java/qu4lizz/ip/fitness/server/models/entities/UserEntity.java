@@ -44,13 +44,14 @@ public class UserEntity {
     @Basic
     @Column(name = "active")
     private Boolean active;
-    @OneToMany(mappedBy = "idUser")
+
+    @OneToMany(mappedBy = "idUser", fetch = FetchType.LAZY)
     private List<ActivityEntity> activities;
-    @OneToMany(mappedBy = "instructor")
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY)
     private List<ProgramEntity> createdPrograms;
-    @OneToMany(mappedBy = "idUser")
+    @OneToMany(mappedBy = "idUser", fetch = FetchType.LAZY)
     private List<UserParticipatesProgramEntity> userParticipatedPrograms;
-    @OneToMany(mappedBy = "idUser")
+    @OneToMany(mappedBy = "idUser", fetch = FetchType.LAZY)
     private List<UserSubscribeCategoryEntity> userSubscribedCategories;
 
     public UserEntity() {}

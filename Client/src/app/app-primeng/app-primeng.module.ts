@@ -13,6 +13,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DataViewModule } from 'primeng/dataview';
 import { TagModule } from 'primeng/tag';
 import { PaginatorModule } from 'primeng/paginator';
+import { GalleriaModule } from 'primeng/galleria';
+import { AvatarModule } from 'primeng/avatar';
+import { ImageModule } from 'primeng/image';
+import { DividerModule } from 'primeng/divider';
+import { MessagesModule } from 'primeng/messages';
 
 const primengModules = [
   InputTextModule,
@@ -29,6 +34,11 @@ const primengModules = [
   DataViewModule,
   TagModule,
   PaginatorModule,
+  GalleriaModule,
+  AvatarModule,
+  ImageModule,
+  DividerModule,
+  MessagesModule,
 ];
 
 @NgModule({
