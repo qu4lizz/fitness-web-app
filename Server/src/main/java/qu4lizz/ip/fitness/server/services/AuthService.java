@@ -2,9 +2,12 @@ package qu4lizz.ip.fitness.server.services;
 
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import qu4lizz.ip.fitness.server.models.requests.LoginRequest;
 import qu4lizz.ip.fitness.server.models.entities.UserEntity;
+import qu4lizz.ip.fitness.server.models.requests.RegistrationRequest;
+import qu4lizz.ip.fitness.server.models.responses.LoggedResponse;
 import qu4lizz.ip.fitness.server.repositories.UserRepository;
 
 import java.util.List;
@@ -19,7 +22,7 @@ public class AuthService {
         this.modelMapper = modelMapper;
     }
 
-    public Integer login(LoginRequest request) {
+    public LoggedResponse login(LoginRequest request) {
         List<UserEntity> users = repository.findAll();
 
         for (var user : users) {
@@ -30,25 +33,36 @@ public class AuthService {
                             "'>this link</a> to verify your email address.";
                     MailService.sendMail(user.getMail(), "Fitness Online Email Verification", message);
                 }
-                return user.getId();
+                return modelMapper.map(user, LoggedResponse.class);
             }
         }
 
         return null;
     }
 
-    public Integer register(UserEntity entity) {
+    public LoggedResponse register(RegistrationRequest registrationRequest) {
+        UserEntity entity = new UserEntity(
+                registrationRequest.getName(),
+                registrationRequest.getSurname(),
+                registrationRequest.getUsername(),
+                registrationRequest.getPassword(),
+                registrationRequest.getMail(),
+                registrationRequest.getCity(),
+                registrationRequest.getImage()
+        );
+
         var user = repository.save(entity);
         String message = "Please click on <a href='http://localhost:4200/mail-verification/" +
                 user.getId() +
                 "'>this link</a> to verify your email address.";
         MailService.sendMail(user.getMail(), "Fitness Online Email Verification", message);
 
-        return user.getId();
+        return new LoggedResponse(user.getId(), user.getUsername());
     }
 
-    public void confirmEmail(Integer id) throws BadRequestException {
-        UserEntity user = modelMapper.map(repository.findById(id), UserEntity.class);
+    public void confirmEmail(Integer id) throws BadRequestException, ChangeSetPersister.NotFoundException {
+        UserEntity user = repository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        System.out.println(user.getVerified());
         if (user.getVerified())
             throw new BadRequestException("Already verified");
         else {

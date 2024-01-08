@@ -164,3 +164,25 @@ export class UserCommentDTO {
     this.timestamp = timestamp;
   }
 }
+
+export class UserProfile {
+  name: string;
+  surname: string;
+  city: string;
+  mail: string;
+  image: number[];
+
+  constructor(
+    name: string,
+    surname: string,
+    city: string,
+    mail: string,
+    image: number[]
+  ) {
+    this.name = name;
+    this.surname = surname;
+    this.city = city;
+    this.mail = mail;
+    this.image = image;
+  }
+}

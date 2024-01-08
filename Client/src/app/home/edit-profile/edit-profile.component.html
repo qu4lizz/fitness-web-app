@@ -1,0 +1,56 @@
+<div class="flex justify-content-center mt-4">
+    <div class="flex flex-column md:flex-row gap-8">
+        <div>
+            <form [formGroup]="userInfoForm" class="form flex flex-column align-items-center justify-content-center">
+                <div class="text-center text-3xl font-bold mb-6">
+                    Change Personal Info
+                </div>
+                <span class="p-float-label mb-5">
+                    <input pInputText formControlName="name" class="input" />
+                    <label for="name">Name</label>
+                </span>
+                <span class="p-float-label mb-5">
+                    <input pInputText formControlName="surname" class="input" />
+                    <label for="surname">Surname</label>
+                </span>
+                <span class="p-float-label mb-5">
+                    <input pInputText formControlName="city" class="input" />
+                    <label for="city">City</label>
+                </span>
+                <span class="p-float-label mb-5">
+                    <input pInputText formControlName="mail" class="input" />
+                    <label for="mail">Email</label>
+                </span>
+                    @if (image && showImg) {
+                        <img [src]="utilFunctions.getImageSrc(image)" width="180px" height="180px" style="object-fit: cover; border-radius: 100px;" class="mb-5">
+                    }
+                    <p-fileUpload mode="basic" accept="image/*" (onSelect)="onImageSelect($event)"
+                        chooseLabel="New Picture" class="mb-6"></p-fileUpload>
+
+                <p-button class="button-margin" [outlined]="true" label="Submit" [loading]="loadingInfo"
+                    (onClick)="changeInfo()"></p-button>
+
+            </form>
+        </div>
+        <div>
+            <form [formGroup]="passwordForm" class="form flex flex-column align-items-center justify-content-center">
+                <div class="text-center text-3xl font-bold mb-6">
+                    Change Password
+                </div>
+                <span class="p-float-label mb-5">
+                    <p-password formControlName="oldPassword" [feedback]="false" [toggleMask]="true"
+                        [inputStyle]="{'width':'20rem'}"></p-password>
+                    <label for="oldPassword">Old Password</label>
+                </span>
+                <span class="p-float-label mb-6">
+                    <p-password formControlName="newPassword" [feedback]="false" [toggleMask]="true"
+                        [inputStyle]="{'width':'20rem'}"></p-password>
+                    <label for="newPassword">New Password</label>
+                </span>
+
+                <p-button class="button-margin mb-5" [outlined]="true" label="Change Password" [loading]="loadingPassword"
+                    (onClick)="changePassword()"></p-button>
+            </form>
+        </div>
+    </div>
+</div>

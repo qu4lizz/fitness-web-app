@@ -6,6 +6,7 @@ import { CreateNewProgramComponent } from './create-new-program/create-new-progr
 import { AllProgramsComponent } from './all-programs/all-programs.component';
 import { MyProgramsComponent } from './my-programs/my-programs.component';
 import { ProgramDetailsComponent } from './program-details/program-details.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
       { path: 'programs', component: AllProgramsComponent },
       { path: 'my-programs', component: MyProgramsComponent },
       { path: 'programs/:id', component: ProgramDetailsComponent },
+      { path: 'edit-profile', component: EditProfileComponent },
     ],
   },
 ];

@@ -4,7 +4,8 @@ import { Injectable, EventEmitter } from '@angular/core';
   providedIn: 'root',
 })
 export class SessionService {
-  private userId: number | null = null;
+  private userId?: number;
+  private username?: string;
   private key: string = 'session';
 
   public sessionStateChanged: EventEmitter<void> = new EventEmitter<void>();
@@ -14,6 +15,7 @@ export class SessionService {
 
     if (stored) {
       this.userId = JSON.parse(stored).userId;
+      this.username = JSON.parse(stored).username;
     }
   }
 
@@ -21,16 +23,21 @@ export class SessionService {
     return this.userId;
   }
 
-  public setUID(num: number) {
-    this.userId = num;
-    localStorage.setItem(this.key, JSON.stringify({ userId: num }));
+  public setSession(uid: number, username: string) {
+    this.userId = uid;
+    this.username = username;
+    localStorage.setItem(this.key, JSON.stringify({ userId: uid, username }));
     this.emitSessionStateChanged();
   }
 
   public removeUID() {
-    this.userId = null;
+    this.userId = undefined;
     localStorage.removeItem(this.key);
     this.emitSessionStateChanged();
+  }
+
+  public getUsername() {
+    return this.username;
   }
 
   private emitSessionStateChanged() {

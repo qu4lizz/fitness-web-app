@@ -5,7 +5,6 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import qu4lizz.ip.fitness.server.models.entities.ProgramEntity;
 import qu4lizz.ip.fitness.server.models.requests.BuyProgramRequest;
 import qu4lizz.ip.fitness.server.models.requests.CommentRequest;
 import qu4lizz.ip.fitness.server.models.requests.ProgramCreateRequest;

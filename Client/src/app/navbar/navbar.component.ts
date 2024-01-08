@@ -32,8 +32,10 @@ export class NavbarComponent {
 
   private initItems() {
     const uid = this.session.getUID();
+    const username = this.sessionService.getUsername();
+    console.log(uid);
 
-    if (uid !== null) {
+    if (uid) {
       this.items = [
         {
           label: 'Home',
@@ -82,7 +84,7 @@ export class NavbarComponent {
           routerLink: '/my-activities',
         },
         {
-          label: 'My Profile',
+          label: `${username}'s Profile`,
           icon: PrimeIcons.USER,
           items: [
             {

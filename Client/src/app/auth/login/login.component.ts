@@ -35,8 +35,8 @@ export class LoginComponent {
 
     this.loading = true;
     this.authService.login(request).subscribe({
-      next: (response) => {
-        this.sessionService.setUID(response as number);
+      next: (response: any) => {
+        this.sessionService.setSession(response.id, response.username);
         this.router.navigate(['/']);
       },
       error: (err) => {

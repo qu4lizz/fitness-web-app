@@ -29,7 +29,7 @@ export class RegisterComponent {
       username: [null, Validators.required],
       password: [null, Validators.required],
       city: [null, Validators.required],
-      mail: [null, Validators.email],
+      mail: [null, [Validators.required, Validators.email]],
     });
   }
 
@@ -61,12 +61,10 @@ export class RegisterComponent {
         formData.append('image', request.image, request.image.name);
       }
 
-      console.log(formData);
-
       this.loading = true;
       this.authService.register(formData).subscribe({
-        next: (response) => {
-          this.sessionService.setUID(response as number);
+        next: (response: any) => {
+          this.sessionService.setSession(response.id, response.username);
           this.router.navigate(['/']);
         },
         error: (err) => {

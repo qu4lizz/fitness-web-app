@@ -32,12 +32,12 @@ public class GlobalExceptionsHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<Object> handleBadRequestExceptions(BadRequestException ex) {
-        return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public final ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e, HandlerMethod handlerMethod) {
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+    public final ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpException.class)
@@ -46,14 +46,14 @@ public class GlobalExceptionsHandler {
         log.error(e);
         if (e.getStatus() == null)
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(e, e.getStatus());
+        return new ResponseEntity<>(e.getMessage(), e.getStatus());
     }
 
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleException(Exception e, HandlerMethod handlerMethod) {
+    public final ResponseEntity<Object> handleException(Exception e) {
         //LoggingUtil.logException(e, getLog(handlerMethod));
-        return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private Log getLog(HandlerMethod handlerMethod) {
