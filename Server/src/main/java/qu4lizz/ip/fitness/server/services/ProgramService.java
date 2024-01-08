@@ -2,6 +2,7 @@ package qu4lizz.ip.fitness.server.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
+import org.apache.coyote.BadRequestException;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import qu4lizz.ip.fitness.server.config.converters.ProgramImageListConverter;
 import qu4lizz.ip.fitness.server.models.entities.*;
+import qu4lizz.ip.fitness.server.models.requests.BuyProgramRequest;
 import qu4lizz.ip.fitness.server.models.requests.CommentRequest;
 import qu4lizz.ip.fitness.server.models.requests.ProgramCreateRequest;
 import qu4lizz.ip.fitness.server.models.responses.ProgramDataViewResponse;
@@ -28,13 +30,15 @@ public class ProgramService {
     private final UserRepository userRepository;
     private final ProgramImageRepository programImageRepository;
     private final CommentRepository commentRepository;
+    private final ParticipationRepository participationRepository;
     private final ModelMapper modelMapper;
 
-    public ProgramService(ProgramRepository repository, UserRepository userRepository, ProgramImageRepository programImageRepository, CommentRepository commentRepository, ModelMapper mapper) {
+    public ProgramService(ProgramRepository repository, UserRepository userRepository, ProgramImageRepository programImageRepository, CommentRepository commentRepository, ParticipationRepository participationRepository, ModelMapper mapper) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.programImageRepository = programImageRepository;
         this.commentRepository = commentRepository;
+        this.participationRepository = participationRepository;
         this.modelMapper = mapper;
     }
 
@@ -128,5 +132,22 @@ public class ProgramService {
         UserCommentProgramEntity commentEntity = modelMapper.map(commentRequest, UserCommentProgramEntity.class);
 
         commentRepository.save(commentEntity);
+    }
+
+    public void buyProgram(BuyProgramRequest request) throws ChangeSetPersister.NotFoundException, BadRequestException {
+        repository.findById(request.getIdProgram()).orElseThrow(ChangeSetPersister.NotFoundException::new);
+
+        var exists = participationRepository.findByIdProgramAndIdUser(request.getIdProgram(), request.getIdUser());
+        if (exists != null)
+            throw new BadRequestException("Already participating");
+
+        UserParticipatesProgramEntity entity = modelMapper.map(request, UserParticipatesProgramEntity.class);
+
+        participationRepository.save(entity);
+    }
+
+    public boolean userParticipatesProgram(Integer uid, Integer pid) {
+        var exists = participationRepository.findByIdProgramAndIdUser(pid, uid);
+        return exists != null;
     }
 }

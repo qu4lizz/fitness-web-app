@@ -33,4 +33,12 @@ export class ProgramService {
   public addComment(obj: any) {
     return this.http.post(baseUrl + '/comments', obj);
   }
+
+  public buyProgram(obj: any) {
+    return this.http.post(baseUrl + '/buy', obj);
+  }
+
+  public userParticipatesProgram(idUser: number, idProgram: number) {
+    return this.http.get(baseUrl + `/user/${idUser}/participates/${idProgram}`);
+  }
 }

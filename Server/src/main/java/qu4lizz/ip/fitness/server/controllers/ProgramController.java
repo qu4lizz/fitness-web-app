@@ -1,10 +1,12 @@
 package qu4lizz.ip.fitness.server.controllers;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import qu4lizz.ip.fitness.server.models.entities.ProgramEntity;
+import qu4lizz.ip.fitness.server.models.requests.BuyProgramRequest;
 import qu4lizz.ip.fitness.server.models.requests.CommentRequest;
 import qu4lizz.ip.fitness.server.models.requests.ProgramCreateRequest;
 import qu4lizz.ip.fitness.server.models.responses.ProgramDataViewResponse;
@@ -56,5 +58,15 @@ public class ProgramController {
     @PostMapping("/comments")
     public void addComment(@RequestBody CommentRequest commentRequest) throws ChangeSetPersister.NotFoundException {
         programService.addComment(commentRequest);
+    }
+
+    @PostMapping("/buy")
+    public void buyProgram(@RequestBody BuyProgramRequest request) throws ChangeSetPersister.NotFoundException, BadRequestException {
+        programService.buyProgram(request);
+    }
+
+    @GetMapping("/user/{uid}/participates/{pid}")
+    public boolean userParticipatesProgram(@PathVariable Integer uid, @PathVariable Integer pid) {
+        return programService.userParticipatesProgram(uid, pid);
     }
 }

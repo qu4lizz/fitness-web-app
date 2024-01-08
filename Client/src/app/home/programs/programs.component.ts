@@ -16,6 +16,7 @@ import { MessageService, SelectItem } from 'primeng/api';
 import { CategoryService } from '../services/category.service';
 import { DifficultyService } from '../services/difficulty.service';
 import { DropdownChangeEvent } from 'primeng/dropdown';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-programs',
@@ -56,7 +57,8 @@ export class ProgramsComponent implements OnInit {
     public sessionsService: SessionService,
     private categoryService: CategoryService,
     private difficultyService: DifficultyService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -213,9 +215,10 @@ export class ProgramsComponent implements OnInit {
   }
 
   navigateToProgram(programId: number) {
-    console.log(programId);
-    // TODO
+    this.router.navigate([`/programs/${programId}`]);
   }
+
+  buyProgram() {}
 
   deleteProgram(program: ProgramDataView) {
     this.programService.delete(program.id).subscribe({

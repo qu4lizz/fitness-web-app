@@ -20,6 +20,7 @@ public class ProgramDataViewResponse {
     private BigDecimal price;
     private Instant start;
     private Integer duration;
+    private String location;
     private Integer idInstructor;
     private DifficultyDTO difficulty;
     private CategoryDTO category;

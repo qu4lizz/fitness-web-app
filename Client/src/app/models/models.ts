@@ -1,6 +1,7 @@
 export class ProgramDataView {
   id: number;
   name: string;
+  location: string;
   price: number;
   start: Date;
   duration: number;
@@ -12,6 +13,7 @@ export class ProgramDataView {
   constructor(
     id: number,
     name: string,
+    location: string,
     price: number,
     start: Date,
     duration: number,
@@ -22,6 +24,7 @@ export class ProgramDataView {
   ) {
     this.id = id;
     this.name = name;
+    this.location = location;
     this.price = price;
     this.start = start;
     this.duration = duration;

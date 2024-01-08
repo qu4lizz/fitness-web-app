@@ -16,6 +16,7 @@ import { ProgramsComponent } from './programs/programs.component';
 import { AllProgramsComponent } from './all-programs/all-programs.component';
 import { MyProgramsComponent } from './my-programs/my-programs.component';
 import { ProgramDetailsComponent } from './program-details/program-details.component';
+import { ParticipationPaymentModalComponent } from './participation-payment-modal/participation-payment-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ProgramDetailsComponent } from './program-details/program-details.compo
     AllProgramsComponent,
     MyProgramsComponent,
     ProgramDetailsComponent,
+    ParticipationPaymentModalComponent,
   ],
   imports: [
     CommonModule,

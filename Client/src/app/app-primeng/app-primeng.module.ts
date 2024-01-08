@@ -18,6 +18,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { ImageModule } from 'primeng/image';
 import { DividerModule } from 'primeng/divider';
 import { MessagesModule } from 'primeng/messages';
+import { DialogModule } from 'primeng/dialog';
 
 const primengModules = [
   InputTextModule,
@@ -39,6 +40,7 @@ const primengModules = [
   ImageModule,
   DividerModule,
   MessagesModule,
+  DialogModule,
 ];
 
 @NgModule({

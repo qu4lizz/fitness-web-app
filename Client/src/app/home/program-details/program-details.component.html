@@ -1,10 +1,13 @@
+<app-participation-payment-modal [programId]="program.id" [programLocation]="program.location"></app-participation-payment-modal>
 <div class="flex justify-content-center mt-4">
     <div class="card flex justify-content-center">
         <p-card [header]="program.name" [subheader]="price" [style]="{ maxWidth: '640px'}">
-            <div class="flex flex-column gap-4 height-fixed md:flex-row justify-content-center align-items-center flex-grow-1 mb-5">
-                <p-button [style]="{ width: '260px'}" label="Buy Program" icon="pi pi-shopping-cart"></p-button>
-                <p-button [style]="{ width: '260px'}" label="Message Instructor" icon="pi pi-comments"></p-button>
-            </div>
+            @if (isLogged && !isOwner) {
+                <div class="flex flex-column gap-4 height-fixed md:flex-row justify-content-center align-items-center flex-grow-1 mb-5">
+                    <p-button [style]="{ width: '260px'}" label="Buy Program" icon="pi pi-shopping-cart" (onClick)="buyProgram()"></p-button>
+                    <p-button [style]="{ width: '260px'}" label="Message Instructor" icon="pi pi-comments"></p-button>
+                </div>
+            }
             <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px' }" [numVisible]="7" [circular]="true">
                 <ng-template pTemplate="item" let-item>
                     <img [src]="item" style="width: 100%; display: block;" />

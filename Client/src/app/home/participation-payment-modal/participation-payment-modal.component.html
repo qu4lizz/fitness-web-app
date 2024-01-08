@@ -1,0 +1,19 @@
+<div class="card flex justify-content-center">
+    <p-dialog [(visible)]="visible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '400px' }" [modal]="true" [position]="'center'">
+        <ng-template pTemplate="headless">
+            <div class="flex flex-column justify-content-center align-items-center py-5 gap-4" style="border-radius: 12px; background-image: radial-gradient(circle at left top, var(--primary-400), var(--primary-700)); height: 360px;">
+                <p-dropdown [options]="paymentOptions" (onChange)="onPaymentChange($event)"></p-dropdown>
+                @if (paymentValue === 'card' || paymentValue === 'paypal') {
+                    <div class="flex-auto">
+                        <label for="cardNumber" class="font-bold block mb-2 text-primary-50">Card Number</label>
+                        <input #inputCard pInputText id="cardNumber" pKeyFilter="int" class="w-full" />
+                    </div>
+                }
+                <div class="flex align-items-center gap-2 mt-8">
+                    <p-button label="Buy" (click)="buyProgram()" [text]="true" styleClass="w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10" class="w-full" ></p-button>
+                    <p-button label="Cancel" (click)="closeDialog()" [text]="true"  styleClass="w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10" class="w-full"></p-button>
+                </div>
+            </div>
+        </ng-template>
+    </p-dialog>
+    </div>

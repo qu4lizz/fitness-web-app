@@ -8,6 +8,7 @@ import {
 } from '../../models/models';
 import { UtilFunctions } from '../../utils/functions';
 import { MessageService } from 'primeng/api';
+import { ParticipationPaymentModalComponent } from '../participation-payment-modal/participation-payment-modal.component';
 
 @Component({
   selector: 'app-program-details',
@@ -18,7 +19,12 @@ export class ProgramDetailsComponent implements OnInit {
   id!: number;
 
   isLogged!: boolean;
+  isOwner!: boolean;
+  loggedUserParticipates: boolean = false;
+
   @ViewChild('comment') commentTextarea!: ElementRef;
+  @ViewChild(ParticipationPaymentModalComponent)
+  participationPaymentModal!: ParticipationPaymentModalComponent;
   program!: ProgramDetails;
 
   price!: string;
@@ -43,6 +49,12 @@ export class ProgramDetailsComponent implements OnInit {
 
       this.reloadPage();
 
+      this.programService
+        .userParticipatesProgram(this.sessionService.getUID()!, this.id)
+        .subscribe((res: any) => {
+          this.loggedUserParticipates = res;
+        });
+
       this.responsiveOptions = [
         {
           breakpoint: '1024px',
@@ -65,7 +77,6 @@ export class ProgramDetailsComponent implements OnInit {
       this.programService.getById(this.id).subscribe({
         next: (res: any) => {
           this.program = res;
-          console.log(res);
 
           this.price = this.program.price + '€';
 
@@ -78,12 +89,19 @@ export class ProgramDetailsComponent implements OnInit {
           this.program.programImages.forEach((img) =>
             this.images.push(this.utilFunctions.getImageSrc(img.image))
           );
+
+          this.isOwner =
+            this.program.instructor.id === this.sessionService.getUID();
         },
         error: (err: any) => {
           console.log(err);
         },
       });
     }
+  }
+
+  buyProgram() {
+    this.participationPaymentModal.showDialog();
   }
 
   submitComment(text: string) {
@@ -120,7 +138,11 @@ export class ProgramDetailsComponent implements OnInit {
   }
 
   canShowVideoURL(program: ProgramDetails) {
-    if (program.videoUrl && new Date(program.start) < new Date()) {
+    if (
+      program.videoUrl &&
+      new Date(program.start) < new Date() &&
+      this.loggedUserParticipates
+    ) {
       return true;
     }
     return false;
