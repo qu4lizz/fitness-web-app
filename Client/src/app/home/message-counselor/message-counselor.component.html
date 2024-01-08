@@ -1,0 +1,7 @@
+<div class="flex flex-column justify-content-center align-items-center mt-4">
+    <div class="text-center text-3xl font-bold mb-6">
+        Send Message to Counselor
+    </div>
+    <textarea #message rows="5" style="width: 80%; font-size: large; padding: 10px; margin-bottom: 4rem;" pInputTextarea autoResize="true" placeholder="Type message here..."></textarea>
+    <p-button label="Send Message" (onClick)="submitMessage()"></p-button>
+</div>

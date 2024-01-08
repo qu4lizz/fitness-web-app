@@ -81,7 +81,7 @@ export class NavbarComponent {
         {
           label: 'Messages',
           icon: PrimeIcons.COMMENTS,
-          routerLink: '/my-activities',
+          routerLink: '/messages',
         },
         {
           label: `${username}'s Profile`,

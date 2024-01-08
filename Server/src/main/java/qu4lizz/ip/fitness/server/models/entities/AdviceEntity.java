@@ -1,10 +1,13 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "advice", schema = "public", catalog = "fitness")
 public class AdviceEntity {
@@ -17,45 +20,13 @@ public class AdviceEntity {
     private String message;
     @Basic
     @Column(name = "timestamp")
-    private Timestamp timestamp;
+    private Instant timestamp;
     @Basic
     @Column(name = "is_read")
     private Boolean isRead;
     @ManyToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id", nullable = false)
-    private UserEntity userByIdUser;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public Boolean getRead() {
-        return isRead;
-    }
-
-    public void setRead(Boolean read) {
-        isRead = read;
-    }
+    private UserEntity user;
 
     @Override
     public boolean equals(Object o) {
@@ -70,11 +41,4 @@ public class AdviceEntity {
         return Objects.hash(id, message, timestamp, isRead);
     }
 
-    public UserEntity getUserByIdUser() {
-        return userByIdUser;
-    }
-
-    public void setUserByIdUser(UserEntity userByIdUser) {
-        this.userByIdUser = userByIdUser;
-    }
 }

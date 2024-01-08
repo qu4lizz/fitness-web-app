@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.web.bind.annotation.*;
+import qu4lizz.ip.fitness.server.models.requests.AdviceRequest;
 import qu4lizz.ip.fitness.server.models.requests.PasswordChangeRequest;
 import qu4lizz.ip.fitness.server.models.requests.UserProfileEditRequest;
 import qu4lizz.ip.fitness.server.models.responses.UserProfileEditResponse;
@@ -31,5 +32,10 @@ public class UserController {
     @PutMapping("/{id}/update-password")
     public void changePassword(@PathVariable Integer id, @RequestBody @Valid PasswordChangeRequest request) throws ChangeSetPersister.NotFoundException, BadRequestException {
         userService.changePassword(id, request);
+    }
+
+    @PostMapping("/counseling")
+    public void askForAdvice(@RequestBody AdviceRequest request) {
+        userService.askForAdvice(request);
     }
 }

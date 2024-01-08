@@ -18,6 +18,7 @@ import { MyProgramsComponent } from './my-programs/my-programs.component';
 import { ProgramDetailsComponent } from './program-details/program-details.component';
 import { ParticipationPaymentModalComponent } from './participation-payment-modal/participation-payment-modal.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { MessageCounselorComponent } from './message-counselor/message-counselor.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     ProgramDetailsComponent,
     ParticipationPaymentModalComponent,
     EditProfileComponent,
+    MessageCounselorComponent,
   ],
   imports: [
     CommonModule,

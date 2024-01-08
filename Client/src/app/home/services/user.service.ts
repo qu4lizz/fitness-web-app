@@ -19,7 +19,10 @@ export class UserService {
   }
 
   public changePassword(uid: number, obj: any) {
-    console.log(baseUrl + `/${uid}/update-password`, obj);
     return this.http.put(baseUrl + `/${uid}/update-password`, obj);
+  }
+
+  public sendCounselingMessage(obj: any) {
+    return this.http.post(baseUrl + '/counseling', obj);
   }
 }
