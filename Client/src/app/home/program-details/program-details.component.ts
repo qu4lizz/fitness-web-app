@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SessionService } from '../../auth/services/session.service';
 import { ProgramService } from '../services/program.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ProgramDetailsResponse as ProgramDetails,
   UserCommentDTO,
@@ -9,6 +9,7 @@ import {
 import { UtilFunctions } from '../../utils/functions';
 import { MessageService } from 'primeng/api';
 import { ParticipationPaymentModalComponent } from '../participation-payment-modal/participation-payment-modal.component';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-program-details',
@@ -38,7 +39,9 @@ export class ProgramDetailsComponent implements OnInit {
     private sessionService: SessionService,
     private programService: ProgramService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private chatService: ChatService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -102,6 +105,21 @@ export class ProgramDetailsComponent implements OnInit {
 
   buyProgram() {
     this.participationPaymentModal.showDialog();
+  }
+
+  sendMessage() {
+    let chatId: any;
+
+    this.chatService
+      .initChat({
+        userOne: this.sessionService.getUID(),
+        userTwo: this.program.instructor.id,
+      })
+      .subscribe({
+        next: (res: any) => (chatId = res),
+        error: (err: any) => console.log(err),
+        complete: () => this.router.navigate([`/messages/${chatId}`]),
+      });
   }
 
   submitComment(text: string) {

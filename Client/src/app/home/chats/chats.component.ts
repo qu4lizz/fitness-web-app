@@ -30,6 +30,6 @@ export class ChatsComponent implements OnInit {
   }
 
   navigateToChat(id: number) {
-    this.router.navigate([`./${id}`]);
+    this.router.navigate([`/messages/${id}`]);
   }
 }

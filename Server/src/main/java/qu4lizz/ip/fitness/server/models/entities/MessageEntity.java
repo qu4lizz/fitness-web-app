@@ -3,7 +3,7 @@ package qu4lizz.ip.fitness.server.models.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 @Data
@@ -19,7 +19,7 @@ public class MessageEntity {
     private String message;
     @Basic
     @Column(name = "timestamp")
-    private Timestamp timestamp;
+    private Instant timestamp;
     @Basic
     @Column(name = "is_read")
     private Boolean isRead;

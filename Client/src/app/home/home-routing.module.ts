@@ -9,6 +9,7 @@ import { ProgramDetailsComponent } from './program-details/program-details.compo
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { MessageCounselorComponent } from './message-counselor/message-counselor.component';
 import { ChatsComponent } from './chats/chats.component';
+import { SingleChatComponent } from './single-chat/single-chat.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'edit-profile', component: EditProfileComponent },
       { path: 'counseling', component: MessageCounselorComponent },
       { path: 'messages', component: ChatsComponent },
+      { path: 'messages/:id', component: SingleChatComponent },
     ],
   },
 ];

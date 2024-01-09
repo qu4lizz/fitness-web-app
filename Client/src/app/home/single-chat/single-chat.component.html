@@ -1,1 +1,62 @@
-<p>single-chat works!</p>
+<div class="text-3xl font-bold text-center line-height-4 h-4 bg-primary-200">
+    {{ otherUser.name + ' ' + otherUser.surname }}
+</div>
+<div class="fixed-msgs">
+    @for (msg of chat.messages; track msg.id) {
+        @if (msg.senderId === loggedUser.id) {
+        <p-messages severity="info" [style]="{ width: 'fit-content', maxWidth: '75%', float: 'right', clear: 'both'}">
+            <ng-template pTemplate>
+
+                <div class="mr-2" [style]="{ float: 'right'}">
+                    <div class="text-lg font-bold" [style]="{ float: 'right', clear: 'both'}">
+                        {{ loggedUser.name }} {{ loggedUser.surname }}
+                    </div>
+                    <div class="text-lg text-900" [style]="{ float: 'right', clear: 'both'}">
+                        {{ this.utilFunctions.formatDateWithDay(msg.timestamp) }}
+                    </div>
+                    <p class="text-900" [style]="{ float: 'right', clear: 'both'}">
+                        {{ msg.message }}
+                    </p>
+                </div>
+                @if (loggedUser.image) {
+                <p-avatar [image]="utilFunctions.getImageSrc(loggedUser.image)" styleClass="mr-2" size="xlarge"
+                    shape="circle" [style]="{ float: 'right'}"></p-avatar>
+                } @else {
+                <p-avatar [label]="loggedUser.name.slice(0, 1)" styleClass="mr-2" size="xlarge" shape="circle"
+                    [style]="{ 'background-color': '#2196F3', color: '#ffffff', float: 'right' }"></p-avatar>
+                }
+            </ng-template>
+        </p-messages>
+        }
+        @else {
+        <p-messages severity="info" [style]="{ width: 'fit-content', maxWidth: '75%', float: 'left', clear: 'both'}">
+            <ng-template pTemplate>
+                @if (otherUser.image) {
+                <p-avatar [image]="utilFunctions.getImageSrc(otherUser.image)" styleClass="mr-2" size="xlarge"
+                    shape="circle"></p-avatar>
+                } @else {
+                <p-avatar [label]="otherUser.name.slice(0, 1)" styleClass="mr-2" size="xlarge" shape="circle"
+                    [style]="{ 'background-color': '#2196F3', color: '#ffffff' }"></p-avatar>
+                }
+                <div class="ml-2">
+                    <div class="text-lg font-bold">
+                        {{ otherUser.name }} {{ otherUser.surname }}
+                    </div>
+                    <div class="text-lg text-900">
+                        {{ this.utilFunctions.formatDateWithDay(msg.timestamp) }}
+                    </div>
+                    <p class="text-900">
+                        {{ msg.message }}
+                    </p>
+                </div>
+            </ng-template>
+        </p-messages>
+        }
+    }
+</div>
+<div class="typezone p-3 bg-primary w-full flex justify-content-center align-items-center">
+    <span class="p-input-icon-right w-11 flex justify-content-center align-items-center">
+        <i class="pi pi-send" (click)="sendMessage()"></i>
+        <input #msgInput type="text" pInputText [style]="{ width: '100%'}"/>
+    </span>
+</div>

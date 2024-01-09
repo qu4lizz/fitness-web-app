@@ -5,7 +5,7 @@
             @if (isLogged && !isOwner) {
                 <div class="flex flex-column gap-4 height-fixed md:flex-row justify-content-center align-items-center flex-grow-1 mb-5">
                     <p-button [style]="{ width: '260px'}" label="Buy Program" icon="pi pi-shopping-cart" (onClick)="buyProgram()"></p-button>
-                    <p-button [style]="{ width: '260px'}" label="Message Instructor" icon="pi pi-comments"></p-button>
+                    <p-button [style]="{ width: '260px'}" label="Message Instructor" icon="pi pi-comments" (onClick)="sendMessage()"></p-button>
                 </div>
             }
             <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px' }" [numVisible]="7" [circular]="true">

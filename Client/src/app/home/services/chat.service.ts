@@ -13,4 +13,16 @@ export class ChatService {
   public getAllChatsByUser(userId: number) {
     return this.http.get(baseUrl + `/user/${userId}`);
   }
+
+  public getSingleChat(chatId: number) {
+    return this.http.get(baseUrl + `/${chatId}`);
+  }
+
+  public sendMessage(obj: any) {
+    return this.http.post(baseUrl + '/message', obj);
+  }
+
+  public initChat(obj: any) {
+    return this.http.post(baseUrl, obj);
+  }
 }
