@@ -33,7 +33,6 @@ export class NavbarComponent {
   private initItems() {
     const uid = this.session.getUID();
     const username = this.sessionService.getUsername();
-    console.log(uid);
 
     if (uid) {
       this.items = [

@@ -8,6 +8,7 @@ import { MyProgramsComponent } from './my-programs/my-programs.component';
 import { ProgramDetailsComponent } from './program-details/program-details.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { MessageCounselorComponent } from './message-counselor/message-counselor.component';
+import { ChatsComponent } from './chats/chats.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'programs/:id', component: ProgramDetailsComponent },
       { path: 'edit-profile', component: EditProfileComponent },
       { path: 'counseling', component: MessageCounselorComponent },
+      { path: 'messages', component: ChatsComponent },
     ],
   },
 ];

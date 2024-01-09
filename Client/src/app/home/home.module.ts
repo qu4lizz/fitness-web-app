@@ -19,6 +19,8 @@ import { ProgramDetailsComponent } from './program-details/program-details.compo
 import { ParticipationPaymentModalComponent } from './participation-payment-modal/participation-payment-modal.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { MessageCounselorComponent } from './message-counselor/message-counselor.component';
+import { ChatsComponent } from './chats/chats.component';
+import { SingleChatComponent } from './single-chat/single-chat.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { MessageCounselorComponent } from './message-counselor/message-counselor
     ParticipationPaymentModalComponent,
     EditProfileComponent,
     MessageCounselorComponent,
+    ChatsComponent,
+    SingleChatComponent,
   ],
   imports: [
     CommonModule,

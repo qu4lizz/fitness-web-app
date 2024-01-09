@@ -1,10 +1,12 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "chat", schema = "public", catalog = "fitness")
 public class ChatEntity {
@@ -16,18 +18,10 @@ public class ChatEntity {
     @JoinColumn(name = "id_user", referencedColumnName = "id", nullable = false)
     private UserEntity userOne;
     @ManyToOne
-    @JoinColumn(name = "id_user1", referencedColumnName = "id")
+    @JoinColumn(name = "id_user1", referencedColumnName = "id", nullable = false)
     private UserEntity userTwo;
     @OneToMany(mappedBy = "idChat")
     private List<MessageEntity> messages;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -40,29 +34,5 @@ public class ChatEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public UserEntity getUserOne() {
-        return userOne;
-    }
-
-    public void setUserOne(UserEntity userOne) {
-        this.userOne = userOne;
-    }
-
-    public UserEntity getUserTwo() {
-        return userTwo;
-    }
-
-    public void setUserTwo(UserEntity userTwo) {
-        this.userTwo = userTwo;
-    }
-
-    public List<MessageEntity> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<MessageEntity> messages) {
-        this.messages = messages;
     }
 }

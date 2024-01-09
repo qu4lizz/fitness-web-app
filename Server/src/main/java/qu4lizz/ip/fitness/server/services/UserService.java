@@ -69,8 +69,7 @@ public class UserService {
 
     public void askForAdvice(AdviceRequest request) {
         AdviceEntity entity = modelMapper.map(request, AdviceEntity.class);
-        System.out.println(""+entity.getIsRead() + entity.getId() + " " + entity.getUser().getId());
+
         adviceRepository.save(entity);
-        System.out.println("succ");
     }
 }
