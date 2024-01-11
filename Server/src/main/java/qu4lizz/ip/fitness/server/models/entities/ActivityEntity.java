@@ -1,10 +1,12 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "activity", schema = "public", catalog = "fitness")
 public class ActivityEntity {
@@ -26,66 +28,10 @@ public class ActivityEntity {
     private String result;
     @Basic
     @Column(name = "timestamp")
-    private Timestamp timestamp;
+    private Instant timestamp;
     @Basic
     @Column(name = "id_user")
     private Integer idUser;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getExerciseType() {
-        return exerciseType;
-    }
-
-    public void setExerciseType(String exerciseType) {
-        this.exerciseType = exerciseType;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public String getIntensity() {
-        return intensity;
-    }
-
-    public void setIntensity(String intensity) {
-        this.intensity = intensity;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public Integer getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(Integer idUser) {
-        this.idUser = idUser;
-    }
 
     @Override
     public boolean equals(Object o) {

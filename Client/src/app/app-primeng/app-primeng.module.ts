@@ -19,6 +19,8 @@ import { ImageModule } from 'primeng/image';
 import { DividerModule } from 'primeng/divider';
 import { MessagesModule } from 'primeng/messages';
 import { DialogModule } from 'primeng/dialog';
+import { ChartModule } from 'primeng/chart';
+import { TableModule } from 'primeng/table';
 
 const primengModules = [
   InputTextModule,
@@ -41,6 +43,8 @@ const primengModules = [
   DividerModule,
   MessagesModule,
   DialogModule,
+  ChartModule,
+  TableModule,
 ];
 
 @NgModule({

@@ -21,6 +21,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { MessageCounselorComponent } from './message-counselor/message-counselor.component';
 import { ChatsComponent } from './chats/chats.component';
 import { SingleChatComponent } from './single-chat/single-chat.component';
+import { ActivitiesComponent } from './activities/activities.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { SingleChatComponent } from './single-chat/single-chat.component';
     MessageCounselorComponent,
     ChatsComponent,
     SingleChatComponent,
+    ActivitiesComponent,
   ],
   imports: [
     CommonModule,

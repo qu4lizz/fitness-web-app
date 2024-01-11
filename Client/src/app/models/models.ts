@@ -186,3 +186,31 @@ export class UserProfile {
     this.image = image;
   }
 }
+
+export class Activity {
+  id: number;
+  exerciseType: string;
+  duration: string;
+  intensity: string;
+  result: string;
+  timestamp: Date;
+  idUser: number;
+
+  constructor(
+    id: number,
+    exerciseType: string,
+    duration: string,
+    intensity: string,
+    result: string,
+    timestamp: Date,
+    idUser: number
+  ) {
+    this.id = id;
+    this.exerciseType = exerciseType;
+    this.duration = duration;
+    this.intensity = intensity;
+    this.result = result;
+    this.timestamp = timestamp;
+    this.idUser = idUser;
+  }
+}

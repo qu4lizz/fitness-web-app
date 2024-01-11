@@ -1,0 +1,71 @@
+<div class="flex flex-column justify-content-center align-items-center mt-4">
+    <div class="card flex justify-content-center mt-3 mb-5">
+        <div class="flex flex-column md:flex-row gap-4 align-items-center">
+            <p-button (click)="showDialog()" icon="pi pi-plus" label="Add New Activity"></p-button>
+            <p-button (click)="downloadPDF()" icon="pi pi-download" label="Download Activity PDF"></p-button>
+        </div>
+        <p-dialog [(visible)]="visible">
+            <ng-template pTemplate="headless">
+                <div class="flex flex-column px-8 py-5 gap-4"
+                    style="border-radius: 12px; background-image: radial-gradient(circle at left top, var(--primary-100), var(--primary-200))">
+                    <form [formGroup]="form" class="flex flex-column align-items-center gap-2">
+                        <span class="p-float-label mb-5">
+                            <input pInputText formControlName="exerciseType" class="input" />
+                            <label for="exerciseType">Exercise type</label>
+                        </span>
+                        <span class="p-float-label mb-5">
+                            <input pInputText formControlName="duration" class="input" />
+                            <label for="duration">Duration (minutes)</label>
+                        </span>
+                        <span class="p-float-label mb-5">
+                            <input pInputText formControlName="intensity" class="input" />
+                            <label for="intensity">Intensity</label>
+                        </span>
+                        <span class="p-float-label mb-7">
+                            <input pInputText formControlName="result" class="input" type="number" />
+                            <label for="result">Result (kilograms)</label>
+                        </span>
+                        <p-button label="Add" (click)="addNewActivity()" [text]="true"
+                            styleClass="w-full text-primary-700 border-1 border-primary-700 hover:bg-white-alpha-10"
+                            class="w-full"></p-button>
+                        <p-button label="Cancel" (click)="closeDialog()" [text]="true"
+                            styleClass="w-full text-primary-700 border-1 border-primary-700 hover:bg-white-alpha-10"
+                            class="w-full"></p-button>
+                    </form>
+                </div>
+            </ng-template>
+        </p-dialog>
+    </div>
+
+    <div class="w-full md:w-5 mb-6">
+        <div class="card">
+            <p-chart type="line" [data]="data" [options]="options"></p-chart>
+        </div>
+    </div>
+
+
+
+    <div class="card">
+        <p-table [value]="activities" responsiveLayout="scroll"
+            [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Exercise Type</th>
+                    <th>Duration (minutes)</th>
+                    <th>Intensity</th>
+                    <th>Result (kilogram)</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr>
+                    <td>{{ utilFunctions.formatDateWithDay(data.timestamp) }}</td>
+                    <td>{{ data.exerciseType }}</td>
+                    <td>{{ data.duration }}</td>
+                    <td>{{ data.intensity }}</td>
+                    <td>{{ data.result }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
