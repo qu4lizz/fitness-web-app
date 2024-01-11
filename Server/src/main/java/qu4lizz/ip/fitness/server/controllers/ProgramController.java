@@ -49,6 +49,16 @@ public class ProgramController {
         return programService.findAllByUser(Integer.parseInt(idUser), idCategory, idDifficulty, page, dateStatus);
     }
 
+    @GetMapping("/participation")
+    public Page<ProgramDataViewResponse> findAllWhereUserParticipating(@RequestParam(name = "idCategory", required = false) String idCategory,
+                                                                       @RequestParam(name = "idDifficulty", required = false) String idDifficulty,
+                                                                       @RequestParam(name = "dateStatus", required = false) String dateStatus,
+                                                                       @RequestParam(name = "idUser") String idUser,
+                                                                       Pageable page) {
+
+        return programService.findAllWhereUserParticipating(Integer.parseInt(idUser), idCategory, idDifficulty, page, dateStatus);
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) throws ChangeSetPersister.NotFoundException {
         programService.delete(id);

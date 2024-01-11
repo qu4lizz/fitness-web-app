@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
@@ -22,6 +23,7 @@ import { CategoryService } from '../services/category.service';
 import { DifficultyService } from '../services/difficulty.service';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { Router } from '@angular/router';
+import { ParticipationPaymentModalComponent } from '../participation-payment-modal/participation-payment-modal.component';
 
 @Component({
   selector: 'app-programs',
@@ -31,6 +33,8 @@ import { Router } from '@angular/router';
 export class ProgramsComponent implements OnInit {
   @Input() public type!: 'all' | 'my' | 'participated';
   @ViewChild('dv', { static: false }) dataView!: DataView;
+  @ViewChild(ParticipationPaymentModalComponent)
+  participationPaymentModal!: ParticipationPaymentModalComponent;
 
   programs?: ProgramDataView[];
   categories!: Category[];
@@ -65,7 +69,8 @@ export class ProgramsComponent implements OnInit {
     private categoryService: CategoryService,
     private difficultyService: DifficultyService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private cdref: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -145,7 +150,7 @@ export class ProgramsComponent implements OnInit {
     } else if (this.type === 'my') {
       queryString +=
         `&idUser=${this.sessionsService.getUID()}` + this.getDateStatusFilter();
-      console.log(queryString);
+
       this.programService.getAllByMe(queryString).subscribe({
         next: (res: any) => {
           this.programs = res.content;
@@ -156,6 +161,18 @@ export class ProgramsComponent implements OnInit {
         },
       });
     } else if (this.type === 'participated') {
+      queryString +=
+        `&idUser=${this.sessionsService.getUID()}` + this.getDateStatusFilter();
+
+      this.programService.getAllParticipated(queryString).subscribe({
+        next: (res: any) => {
+          this.programs = res.content;
+          this.totalRecords = res.totalElements;
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
     } else {
       throw new Error('not correct type');
     }
@@ -276,7 +293,17 @@ export class ProgramsComponent implements OnInit {
     this.router.navigate([`/programs/${programId}`]);
   }
 
-  buyProgram() {}
+  buyProgramId: any;
+  buyProgramLocation: any;
+
+  buyProgram(program: any) {
+    this.buyProgramId = program.id;
+    this.buyProgramLocation = program.location;
+
+    this.cdref.detectChanges();
+
+    this.participationPaymentModal.showDialog();
+  }
 
   deleteProgram(program: ProgramDataView) {
     this.programService.delete(program.id).subscribe({

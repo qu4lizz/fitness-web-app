@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 public class ChatRequest {
+    private Integer id = null;
     @NotNull
-    private Integer userOne;
+    private Integer idUserOne;
     @NotNull
-    private Integer userTwo;
+    private Integer idUserTwo;
 }

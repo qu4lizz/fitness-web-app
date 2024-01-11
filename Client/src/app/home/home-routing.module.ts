@@ -12,6 +12,7 @@ import { ChatsComponent } from './chats/chats.component';
 import { SingleChatComponent } from './single-chat/single-chat.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { GuardService } from '../auth/services/guard.service';
+import { ParticipatedProgramsComponent } from './participated-programs/participated-programs.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,11 @@ const routes: Routes = [
       {
         path: 'my-activities',
         component: ActivitiesComponent,
+        canActivate: [GuardService],
+      },
+      {
+        path: 'programs-participation',
+        component: ParticipatedProgramsComponent,
         canActivate: [GuardService],
       },
     ],

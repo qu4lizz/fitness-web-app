@@ -61,7 +61,7 @@
                                 @if (type === 'all') {
                                     <button pButton icon="pi pi-shopping-cart"
                                         class="md:align-self-end mb-2 p-button-rounded"
-                                        [disabled]="buyButtonDisabled || sessionsService.getUID() === program.idInstructor" (click)="buyProgram()"></button>
+                                        [disabled]="buyButtonDisabled || sessionsService.getUID() === program.idInstructor" (click)="buyProgram(program)"></button>
                                 } @else if (type === 'my') {
                                     <div class="flex flex-row gap-2">
                                         <button pButton icon="pi pi-trash" (click)="deleteProgram(program)"
@@ -70,10 +70,6 @@
                                             class="md:align-self-end mb-2 p-button-rounded"
                                             [disabled]="true"></button>
                                     </div>
-                                } @else if (type === 'participated') {
-                                    <button pButton icon="pi pi-"
-                                        class="md:align-self-end mb-2 p-button-rounded"
-                                        [disabled]="sessionsService.getUID() === program.idInstructor"></button>
                                 }
                             </div>
                         </div>
@@ -84,3 +80,4 @@
         </ng-template>
     </p-dataView>
 </div>
+<app-participation-payment-modal [programId]="buyProgramId" [programLocation]="buyProgramLocation"></app-participation-payment-modal>

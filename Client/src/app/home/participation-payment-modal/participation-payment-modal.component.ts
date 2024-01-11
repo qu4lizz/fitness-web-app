@@ -9,7 +9,7 @@ import { SessionService } from '../../auth/services/session.service';
   templateUrl: './participation-payment-modal.component.html',
   styleUrl: './participation-payment-modal.component.css',
 })
-export class ParticipationPaymentModalComponent implements OnInit {
+export class ParticipationPaymentModalComponent {
   @Input() programId!: number;
   @Input() programLocation!: string;
 
@@ -26,7 +26,9 @@ export class ParticipationPaymentModalComponent implements OnInit {
     private sessionService: SessionService
   ) {}
 
-  ngOnInit(): void {
+  showDialog() {
+    this.visible = true;
+
     this.paymentOptions = [
       { label: 'Choose Payment Option', value: '' },
       { label: 'Card', value: 'card' },
@@ -35,10 +37,6 @@ export class ParticipationPaymentModalComponent implements OnInit {
     if (this.programLocation.toLowerCase() !== 'online') {
       this.paymentOptions.push({ label: 'In Person', value: 'inperson' });
     }
-  }
-
-  showDialog() {
-    this.visible = true;
   }
 
   closeDialog() {

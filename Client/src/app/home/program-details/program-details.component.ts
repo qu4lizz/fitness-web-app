@@ -112,8 +112,8 @@ export class ProgramDetailsComponent implements OnInit {
 
     this.chatService
       .initChat({
-        userOne: this.sessionService.getUID(),
-        userTwo: this.program.instructor.id,
+        idUserOne: this.sessionService.getUID(),
+        idUserTwo: this.program.instructor.id,
       })
       .subscribe({
         next: (res: any) => (chatId = res),

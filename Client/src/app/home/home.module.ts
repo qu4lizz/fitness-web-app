@@ -22,6 +22,7 @@ import { MessageCounselorComponent } from './message-counselor/message-counselor
 import { ChatsComponent } from './chats/chats.component';
 import { SingleChatComponent } from './single-chat/single-chat.component';
 import { ActivitiesComponent } from './activities/activities.component';
+import { ParticipatedProgramsComponent } from './participated-programs/participated-programs.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ActivitiesComponent } from './activities/activities.component';
     ChatsComponent,
     SingleChatComponent,
     ActivitiesComponent,
+    ParticipatedProgramsComponent,
   ],
   imports: [
     CommonModule,

@@ -18,6 +18,10 @@ export class ProgramService {
     return this.http.get(baseUrl + '/my' + queryString);
   }
 
+  public getAllParticipated(queryString: string) {
+    return this.http.get(baseUrl + '/participation' + queryString);
+  }
+
   public create(program: any) {
     return this.http.post(baseUrl, program);
   }

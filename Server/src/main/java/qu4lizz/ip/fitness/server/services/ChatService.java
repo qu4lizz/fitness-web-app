@@ -64,7 +64,7 @@ public class ChatService {
     }
 
     public Integer initChat(ChatRequest request) {
-        ChatEntity entity = chatRepository.findByUserOneAndUserTwo(request.getUserOne(), request.getUserTwo());
+        ChatEntity entity = chatRepository.findByUserOneAndUserTwo(request.getIdUserOne(), request.getIdUserTwo());
 
         if (entity == null) {
             ChatEntity newEntity = modelMapper.map(request, ChatEntity.class);

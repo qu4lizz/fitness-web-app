@@ -20,6 +20,7 @@ import qu4lizz.ip.fitness.server.repositories.*;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class ProgramService {
@@ -41,7 +42,7 @@ public class ProgramService {
 
     public Page<ProgramDataViewResponse> findAll(String idCategory, String idDifficulty, Pageable page) {
         Page<ProgramEntity> resultPage = repository.findAll(
-                findByCriteria(null, idCategory != null ? Integer.parseInt(idCategory) : null,
+                findByCriteria(null, null, idCategory != null ? Integer.parseInt(idCategory) : null,
                         idDifficulty != null ? Integer.parseInt(idDifficulty) : null, Instant.now(), false), page);
 
         return resultPage.map(e -> modelMapper.map(e, ProgramDataViewResponse.class));
@@ -51,7 +52,21 @@ public class ProgramService {
         boolean dateFilter = "completed".equals(dateStatus) || "upcoming".equals(dateStatus);
 
         Page<ProgramEntity> resultPage = repository.findAll(
-                findByCriteria(idUser, idCategory != null ? Integer.parseInt(idCategory) : null,
+                findByCriteria(null, idUser, idCategory != null ? Integer.parseInt(idCategory) : null,
+                        idDifficulty != null ? Integer.parseInt(idDifficulty) : null, dateFilter ? Instant.now() : null, "completed".equals(dateStatus)), page);
+
+        return resultPage.map(e -> modelMapper.map(e, ProgramDataViewResponse.class));
+    }
+
+    public Page<ProgramDataViewResponse> findAllWhereUserParticipating(Integer idUser, String idCategory, String idDifficulty, Pageable page, String dateStatus) {
+        boolean dateFilter = "completed".equals(dateStatus) || "upcoming".equals(dateStatus);
+
+        List<UserParticipatesProgramEntity> participation = participationRepository.findAllByIdUser(idUser);
+
+        List<Integer> programIds = participation.stream().map(UserParticipatesProgramEntity::getIdProgram).toList();
+
+        Page<ProgramEntity> resultPage = repository.findAll(
+                findByCriteria(programIds, null, idCategory != null ? Integer.parseInt(idCategory) : null,
                         idDifficulty != null ? Integer.parseInt(idDifficulty) : null, dateFilter ? Instant.now() : null, "completed".equals(dateStatus)), page);
 
         return resultPage.map(e -> modelMapper.map(e, ProgramDataViewResponse.class));
@@ -63,10 +78,13 @@ public class ProgramService {
         return modelMapper.map(entity, ProgramDetailsResponse.class);
     }
 
-    public static Specification<ProgramEntity> findByCriteria(Integer idUser, Integer idCategory, Integer idDifficulty, Instant start, Boolean isBefore) {
+    public static Specification<ProgramEntity> findByCriteria(List<Integer> participatedProgramIds, Integer idUser, Integer idCategory, Integer idDifficulty, Instant start, Boolean isBefore) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.isTrue(root.get("active"));
 
+            if (participatedProgramIds != null && !participatedProgramIds.isEmpty()) {
+                predicate = criteriaBuilder.and(predicate, root.get("id").in(participatedProgramIds));
+            }
             if (idUser != null) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("instructor").get("id"), idUser));
             }
