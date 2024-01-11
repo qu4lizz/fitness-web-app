@@ -214,3 +214,11 @@ export class Activity {
     this.idUser = idUser;
   }
 }
+
+export class SubscribedCategories {
+  idCategory: number;
+
+  constructor(id: number) {
+    this.idCategory = id;
+  }
+}

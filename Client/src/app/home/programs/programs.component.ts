@@ -6,7 +6,12 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { Category, Difficulty, ProgramDataView } from '../../models/models';
+import {
+  Category,
+  Difficulty,
+  ProgramDataView,
+  SubscribedCategories,
+} from '../../models/models';
 import { UtilFunctions } from '../../utils/functions';
 import { ProgramService } from '../services/program.service';
 import { SessionService } from '../../auth/services/session.service';
@@ -50,6 +55,8 @@ export class ProgramsComponent implements OnInit {
   dateStatus?: string;
 
   currentDate!: Date;
+
+  subscribedCategories!: SubscribedCategories[];
 
   constructor(
     public utilFunctions: UtilFunctions,
@@ -96,6 +103,22 @@ export class ProgramsComponent implements OnInit {
         this.difficulties = res;
       },
     });
+
+    this.getSubsribedCategories();
+  }
+
+  getSubsribedCategories() {
+    this.categoryService
+      .getSubscribedCategories(this.sessionsService.getUID()!)
+      .subscribe({
+        next: (res: any) => {
+          console.log('subs:', res);
+          this.subscribedCategories = res;
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
   }
 
   onPageChange(event: DataViewPageEvent): void {
@@ -202,6 +225,41 @@ export class ProgramsComponent implements OnInit {
   getDateStatusFilter() {
     if (!this.dateStatus || this.dateStatus === 'all') return '';
     else return `&dateStatus=${this.dateStatus}`;
+  }
+
+  subscribeToCategory(subscribe: boolean) {
+    this.categoryService
+      .subscribe({
+        idUser: this.sessionsService.getUID(),
+        idCategory: this.idCategory,
+        subscribe: subscribe,
+      })
+      .subscribe({
+        error: (err: any) => {
+          console.log(err);
+        },
+        complete: () => {
+          if (subscribe) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successfully Subscribed',
+              detail: 'You have subscribed to new category',
+            });
+          } else {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successfully Unsubscribed',
+              detail: 'You have unsubscribed from category',
+            });
+          }
+
+          this.getSubsribedCategories();
+        },
+      });
+  }
+
+  isCategorySubscribed(idCategory: number): boolean {
+    return this.subscribedCategories.some((c) => c.idCategory === idCategory);
   }
 
   resetPage() {

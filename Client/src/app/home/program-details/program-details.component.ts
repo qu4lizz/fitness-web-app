@@ -45,7 +45,7 @@ export class ProgramDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLogged = this.sessionService.getUID() !== null;
+    this.isLogged = this.sessionService.getUID() !== undefined;
 
     this.route.params.subscribe((params) => {
       this.id = params['id'];

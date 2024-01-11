@@ -1,11 +1,13 @@
 package qu4lizz.ip.fitness.server.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.coyote.BadRequestException;
+import org.springframework.web.bind.annotation.*;
 import qu4lizz.ip.fitness.server.models.entities.CategoryEntity;
+import qu4lizz.ip.fitness.server.models.requests.CategorySubscribeRequest;
 import qu4lizz.ip.fitness.server.models.responses.CategoryResponse;
+import qu4lizz.ip.fitness.server.models.responses.SubscribedCategoriesResponse;
 import qu4lizz.ip.fitness.server.repositories.CategoryRepository;
+import qu4lizz.ip.fitness.server.services.CategoryService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,17 +15,24 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
-    private final CategoryRepository repository;
+    private final CategoryService categoryService;
 
-    public CategoryController(CategoryRepository categoryRepository) {
-        this.repository = categoryRepository;
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @GetMapping
-    List<CategoryResponse> findAll() {
-        List<CategoryEntity> entities = repository.findAll();
-        return entities.stream()
-                .map(CategoryResponse::new)
-                .collect(Collectors.toList());
+    public List<CategoryResponse> findAll() {
+        return categoryService.findAll();
+    }
+
+    @PostMapping("/subscribe")
+    public void subscribeUserToCategory(@RequestBody CategorySubscribeRequest request) throws BadRequestException {
+        categoryService.subscribeUserToCategory(request);
+    }
+
+    @GetMapping("/subscribed/{id}")
+    public List<SubscribedCategoriesResponse> getSubscribedCategories(@PathVariable Integer id) {
+        return categoryService.getSubsribedCategories(id);
     }
 }

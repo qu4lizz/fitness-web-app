@@ -11,6 +11,7 @@ import { MessageCounselorComponent } from './message-counselor/message-counselor
 import { ChatsComponent } from './chats/chats.component';
 import { SingleChatComponent } from './single-chat/single-chat.component';
 import { ActivitiesComponent } from './activities/activities.component';
+import { GuardService } from '../auth/services/guard.service';
 
 const routes: Routes = [
   {
@@ -18,15 +19,43 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: HomePageComponent },
-      { path: 'programs/create-new', component: CreateNewProgramComponent },
+      {
+        path: 'programs/create-new',
+        component: CreateNewProgramComponent,
+        canActivate: [GuardService],
+      },
       { path: 'programs', component: AllProgramsComponent },
-      { path: 'my-programs', component: MyProgramsComponent },
+      {
+        path: 'my-programs',
+        component: MyProgramsComponent,
+        canActivate: [GuardService],
+      },
       { path: 'programs/:id', component: ProgramDetailsComponent },
-      { path: 'edit-profile', component: EditProfileComponent },
-      { path: 'counseling', component: MessageCounselorComponent },
-      { path: 'messages', component: ChatsComponent },
-      { path: 'messages/:id', component: SingleChatComponent },
-      { path: 'my-activities', component: ActivitiesComponent },
+      {
+        path: 'edit-profile',
+        component: EditProfileComponent,
+        canActivate: [GuardService],
+      },
+      {
+        path: 'counseling',
+        component: MessageCounselorComponent,
+        canActivate: [GuardService],
+      },
+      {
+        path: 'messages',
+        component: ChatsComponent,
+        canActivate: [GuardService],
+      },
+      {
+        path: 'messages/:id',
+        component: SingleChatComponent,
+        canActivate: [GuardService],
+      },
+      {
+        path: 'my-activities',
+        component: ActivitiesComponent,
+        canActivate: [GuardService],
+      },
     ],
   },
 ];

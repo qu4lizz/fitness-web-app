@@ -42,6 +42,9 @@ public class ProgramEntity {
     @Basic
     @Column(name = "active")
     private Boolean active;
+    @Basic
+    @Column(name = "created_at")
+    private Instant createdAt;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_difficulty", referencedColumnName = "id", nullable = false)
     private DifficultyEntity difficulty;

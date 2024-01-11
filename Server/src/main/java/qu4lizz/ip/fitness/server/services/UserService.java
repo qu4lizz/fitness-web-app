@@ -5,6 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import qu4lizz.ip.fitness.server.models.entities.AdviceEntity;
+import qu4lizz.ip.fitness.server.models.entities.ProgramEntity;
 import qu4lizz.ip.fitness.server.models.entities.UserEntity;
 import qu4lizz.ip.fitness.server.models.requests.AdviceRequest;
 import qu4lizz.ip.fitness.server.models.requests.PasswordChangeRequest;
@@ -14,6 +15,7 @@ import qu4lizz.ip.fitness.server.repositories.AdviceRepository;
 import qu4lizz.ip.fitness.server.repositories.UserRepository;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -71,5 +73,19 @@ public class UserService {
         AdviceEntity entity = modelMapper.map(request, AdviceEntity.class);
 
         adviceRepository.save(entity);
+    }
+
+    public void sendDailyCategoryEmails(Integer idUser, List<ProgramEntity> newPrograms) {
+        userRepository.findById(idUser).ifPresent(userEntity -> {
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("<h2>New programs are added to your subscribed category (").append(newPrograms.get(0).getCategory().getName()).append(")</h2>");
+
+            for (var program : newPrograms) {
+                stringBuilder.append("<p>").append(program.getName()).append("</p>");
+            }
+
+            MailService.sendMail(userEntity.getMail(), "New Programs", stringBuilder.toString());
+        });
     }
 }

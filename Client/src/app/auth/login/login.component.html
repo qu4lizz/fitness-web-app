@@ -8,7 +8,9 @@
             <p-password formControlName="password" [feedback]="false" [toggleMask]="true" [inputStyle]="{'width':'20rem'}"></p-password>
             <label for="password">Password</label>
         </div>
+        <p>
+            Don't have an account? <a routerLink="/auth/register">Create New</a>
+        </p>
         <p-button class="button-margin" label="Submit" [loading]="loading" (onClick)="submit()"></p-button>
     </form>
-    <p-toast [breakpoints]="{'960px': {width: '100%', right: '0', left: '0'}}"></p-toast>
 </p-card>

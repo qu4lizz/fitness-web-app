@@ -13,4 +13,12 @@ export class CategoryService {
   public getAll() {
     return this.http.get(baseUrl);
   }
+
+  public subscribe(obj: any) {
+    return this.http.post(baseUrl + '/subscribe', obj);
+  }
+
+  public getSubscribedCategories(uid: number) {
+    return this.http.get(baseUrl + `/subscribed/${uid}`);
+  }
 }

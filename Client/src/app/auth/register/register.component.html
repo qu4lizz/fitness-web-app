@@ -33,6 +33,10 @@
         </div>
         <p-fileUpload mode="basic" accept="image/*" (onSelect)="onImageSelect($event)" chooseLabel="Your Picture"></p-fileUpload>
 
+        <p>
+            Already have an account? <a routerLink="/auth/login">Sign In</a>
+        </p>
+
         <p-button class="button-margin" label="Submit" [loading]="loading" (onClick)="submit()"></p-button>
     </form>
 </p-card>
