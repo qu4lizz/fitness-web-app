@@ -20,7 +20,7 @@
             </p-galleria>
             <div class="text-center p-4 text-2xl">"<i>{{ program.description }}</i>"</div>
             <div class="flex flex-column gap-4 height-fixed md:flex-row">
-                <p-card header="Instructor" subheader="{{program.instructor.name}} {{program.instructor.surname}}" class="flex flex-grow-1 justify-content-center align-items-center" [style]="{ width: '260px', height: '300px' }">
+                <p-card header="Instructor" subheader="{{program.instructor.name}} {{program.instructor.surname}}" class="flex flex-grow-1 justify-content-center align-items-center" [style]="{ width: '260px', height: '340px' }">
                         @if (program.instructor.image) {
                             <img [src]="utilFunctions.getImageSrc(program.instructor.image)" width="180px" height="180px" style="object-fit: cover; border-radius: 100px;">
                         } 
@@ -28,11 +28,14 @@
                             <img src="https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg" width="128px" height="128px" style="object-fit: cover; border-radius: 80px;">
                         }
                 </p-card>
-                <p-card header="Program Info" subheader="Category: {{ program.category.name }}" class="flex flex-grow-1 justify-content-center align-items-center height-fixed" [style]="{ width: '260px', height: '300px' }">
+                <p-card header="Program Info" subheader="Category: {{ program.category.name }}" class="flex flex-grow-1 justify-content-center align-items-center height-fixed" [style]="{ width: '260px', height: '340px' }">
                     <p>Starting {{ utilFunctions.formatDate(program.start) }}</p>
                     <p>Duration: {{ program.duration }} days</p>
                     <span>Level: </span><p-tag [value]="program.difficulty.name" [severity]="getSeverity(program.difficulty.name)"></p-tag>
                     <p>Location: {{ program.location }}</p>
+                    @for (attribute of program.attributes; track attribute.name) {
+                        <p>{{ attribute.attributeName }}: {{ attribute.value }}</p>
+                    }
                 </p-card>
             </div>
             @if (canShowVideoURL(program)) {

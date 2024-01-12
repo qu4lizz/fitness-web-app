@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../services/category.service';
 import { DifficultyService } from '../services/difficulty.service';
 import { ProgramService } from '../services/program.service';
 import { SessionService } from '../../auth/services/session.service';
 import { MessageService } from 'primeng/api';
 import { FileSelectEvent } from 'primeng/fileupload';
+import { DropdownChangeEvent } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-create-new-program',
@@ -25,6 +20,8 @@ export class CreateNewProgramComponent implements OnInit {
   public difficulties: any;
   public categories: any;
   private image?: File[];
+  public attributes?: any;
+  dynamicAttributes: { [key: string]: string } = {};
 
   constructor(
     private formBuilder: FormBuilder,
@@ -73,13 +70,18 @@ export class CreateNewProgramComponent implements OnInit {
     formData.append('start', new Date(this.form.value.start).toISOString());
     formData.append('duration', this.form.value.duration);
     formData.append('location', this.form.value.location);
-    formData.append('url', this.form.value.url);
+    formData.append('videoUrl', this.form.value.url);
     formData.append('idDifficulty', this.form.value.idDifficulty);
     formData.append('idCategory', this.form.value.idCategory);
     formData.append('active', 'true');
     formData.append('idUser', '' + this.sessionService.getUID());
 
     const imageArray = Array.from(this.image || []);
+
+    this.attributes.forEach((attr: any) => {
+      const input = document.getElementById(`${attr.id}`) as HTMLInputElement;
+      formData.append(`attributes[${attr.id}]`, input.value);
+    });
 
     if (imageArray.length > 0) {
       imageArray.forEach((image) => {
@@ -111,5 +113,14 @@ export class CreateNewProgramComponent implements OnInit {
         detail: 'Fields are not correctly filled',
       });
     }
+  }
+
+  onCategorySelect(event: DropdownChangeEvent) {
+    this.categoryService.getCategoryAttributes(event.value).subscribe({
+      next: (res: any) => {
+        this.attributes = res;
+      },
+      error: (err: any) => console.log(err),
+    });
   }
 }

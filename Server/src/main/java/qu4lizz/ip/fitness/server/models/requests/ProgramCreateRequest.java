@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Map;
 
 @Data
 @ToString
@@ -34,4 +35,6 @@ public class ProgramCreateRequest {
     private Integer idUser;
     @NotNull
     private MultipartFile[] programImages;
+    private Map<Integer, String> attributes;
+    private Instant createdAt = Instant.now();
 }

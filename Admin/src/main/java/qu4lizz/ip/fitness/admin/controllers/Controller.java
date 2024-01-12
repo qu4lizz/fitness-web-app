@@ -231,7 +231,11 @@ public class Controller extends HttpServlet {
                     case "delete-category" -> {
                         address = CATEGORIES;
                         int id = Integer.parseInt(request.getParameter("id"));
-                        categoryBean.delete(id);
+                        try {
+                            categoryBean.delete(id);
+                        } catch (Exception e) {
+                            session.setAttribute("notification", "Cannot delete because it has attributes");
+                        }
                     }
                     case "details-category" -> {
                         address = DETAILS_CATEGORY;

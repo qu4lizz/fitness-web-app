@@ -60,6 +60,8 @@ public class ProgramEntity {
     private List<UserCommentProgramEntity> comments;
     @OneToMany(mappedBy = "idProgram")
     private List<UserParticipatesProgramEntity> participation;
+    @OneToMany(mappedBy = "idProgram")
+    private List<ProgramHasAttributesEntity> attributes;
 
     @Override
     public boolean equals(Object o) {

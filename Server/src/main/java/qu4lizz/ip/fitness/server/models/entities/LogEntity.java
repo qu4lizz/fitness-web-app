@@ -1,10 +1,12 @@
 package qu4lizz.ip.fitness.server.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "log", schema = "public", catalog = "fitness")
 public class LogEntity {
@@ -22,31 +24,8 @@ public class LogEntity {
     public LogEntity() {}
 
     public LogEntity(String text, Timestamp datetime) {
+        this.id = null;
         this.text = text;
-        this.datetime = datetime;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Timestamp getDatetime() {
-        return datetime;
-    }
-
-    public void setDatetime(Timestamp datetime) {
         this.datetime = datetime;
     }
 

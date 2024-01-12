@@ -80,6 +80,7 @@ export class ProgramDetailsResponse {
   instructor: User;
   programImages: ProgramImage[];
   comments: UserCommentDTO[];
+  attributes: any;
 
   constructor(
     id: number,
@@ -95,7 +96,8 @@ export class ProgramDetailsResponse {
     category: Category,
     instructor: User,
     programImages: ProgramImage[],
-    comments: UserCommentDTO[]
+    comments: UserCommentDTO[],
+    attributes: any
   ) {
     this.id = id;
     this.name = name;
@@ -111,6 +113,7 @@ export class ProgramDetailsResponse {
     this.instructor = instructor;
     this.programImages = programImages;
     this.comments = comments;
+    this.attributes = attributes;
   }
 }
 

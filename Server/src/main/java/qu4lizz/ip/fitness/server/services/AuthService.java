@@ -16,10 +16,12 @@ import java.util.List;
 public class AuthService {
     private final UserRepository repository;
     private final ModelMapper modelMapper;
+    private final LogService logService;
 
-    public AuthService(UserRepository repository, ModelMapper modelMapper) {
+    public AuthService(UserRepository repository, ModelMapper modelMapper, LogService logService) {
         this.repository = repository;
         this.modelMapper = modelMapper;
+        this.logService = logService;
     }
 
     public LoggedResponse login(LoginRequest request) {
@@ -33,9 +35,11 @@ public class AuthService {
                             "'>this link</a> to verify your email address.";
                     MailService.sendMail(user.getMail(), "Fitness Online Email Verification", message);
                 }
+                logService.log("User with username '" + request.getUsername() + "' logged in");
                 return modelMapper.map(user, LoggedResponse.class);
             }
         }
+        logService.log("User with username '" + request.getUsername() + "' failed login");
 
         return null;
     }
@@ -52,6 +56,9 @@ public class AuthService {
         );
 
         var user = repository.save(entity);
+
+        logService.log("User with username '" + registrationRequest.getUsername() + "' just registered");
+
         String message = "Please click on <a href='http://localhost:4200/mail-verification/" +
                 user.getId() +
                 "'>this link</a> to verify your email address.";
@@ -62,12 +69,13 @@ public class AuthService {
 
     public void confirmEmail(Integer id) throws BadRequestException, ChangeSetPersister.NotFoundException {
         UserEntity user = repository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
-        System.out.println(user.getVerified());
+
         if (user.getVerified())
             throw new BadRequestException("Already verified");
         else {
             user.setVerified(true);
             repository.saveAndFlush(user);
+            logService.log("User with id " + id + " verified email");
         }
     }
 }

@@ -22,15 +22,19 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
     private final ModelMapper modelMapper;
+    private final LogService logService;
 
-    public ChatService(ChatRepository chatRepository, MessageRepository messageRepository, ModelMapper modelMapper) {
+    public ChatService(ChatRepository chatRepository, MessageRepository messageRepository, ModelMapper modelMapper, LogService logService) {
         this.chatRepository = chatRepository;
         this.messageRepository = messageRepository;
         this.modelMapper = modelMapper;
+        this.logService = logService;
     }
 
     public List<ChatDataViewResponse> getUserChats(Integer userId) {
         List<ChatEntity> chats = chatRepository.findAllByUserOneOrUserTwoOrderByMessages(userId);
+
+        logService.log("User with id " + userId + " fetching chats");
 
         return chats.stream()
                 .map(chatEntity -> {
@@ -52,6 +56,8 @@ public class ChatService {
 
         chatEntity.setMessages(chatEntity.getMessages().stream().sorted(Comparator.comparing(MessageEntity::getTimestamp)).toList());
 
+        logService.log("Fetching chat with id " + id);
+
         return modelMapper.map(chatEntity, ChatResponse.class);
     }
 
@@ -60,6 +66,7 @@ public class ChatService {
 
         MessageEntity entity = modelMapper.map(request, MessageEntity.class);
 
+        logService.log("User with id " + request.getSenderId() + " sent new message");
         messageRepository.save(entity);
     }
 
@@ -72,6 +79,8 @@ public class ChatService {
             ChatEntity saved = chatRepository.save(newEntity);
             return saved.getId();
         }
+
+        logService.log("User with id " + request.toString() + " started new conversation");
 
         return entity.getId();
     }

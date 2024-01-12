@@ -1,10 +1,7 @@
 package qu4lizz.ip.fitness.server.models.responses;
 
 import lombok.Data;
-import qu4lizz.ip.fitness.server.models.dto.CategoryDTO;
-import qu4lizz.ip.fitness.server.models.dto.DifficultyDTO;
-import qu4lizz.ip.fitness.server.models.dto.UserCommentDTO;
-import qu4lizz.ip.fitness.server.models.dto.UserDTO;
+import qu4lizz.ip.fitness.server.models.dto.*;
 import qu4lizz.ip.fitness.server.models.entities.*;
 
 import java.math.BigDecimal;
@@ -21,10 +18,12 @@ public class ProgramDetailsResponse {
     private Instant start;
     private String location;
     private String videoUrl;
-    private Boolean active; // TODO: think
+    private Boolean active;
     private DifficultyDTO difficulty;
     private CategoryDTO category;
     private UserDTO instructor;
     private List<ProgramImageEntity> programImages;
     private List<UserCommentDTO> comments;
+    private List<ProgramAttributeDTO> attributes;
+
 }

@@ -21,4 +21,8 @@ export class CategoryService {
   public getSubscribedCategories(uid: number) {
     return this.http.get(baseUrl + `/subscribed/${uid}`);
   }
+
+  public getCategoryAttributes(idCategory: number) {
+    return this.http.get(baseUrl + `/attributes/${idCategory}`);
+  }
 }

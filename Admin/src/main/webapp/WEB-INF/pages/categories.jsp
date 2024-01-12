@@ -11,6 +11,7 @@
 
 <%@include file="navbar.jsp" %>
 <div class="container mt-5">
+    <p style="color: red"><%=session.getAttribute("notification") != null ? session.getAttribute("notification") : ""%></p>
     <div class="d-flex flex-row justify-content-between">
         <h2>Categories</h2>
         <form method="post" action="?action=new-category">

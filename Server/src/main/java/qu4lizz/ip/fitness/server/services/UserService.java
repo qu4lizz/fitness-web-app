@@ -22,15 +22,19 @@ public class UserService {
     private final UserRepository userRepository;
     private final AdviceRepository adviceRepository;
     private final ModelMapper modelMapper;
+    private final LogService logService;
 
-    public UserService(UserRepository userRepository, AdviceRepository adviceRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, AdviceRepository adviceRepository, ModelMapper modelMapper, LogService logService) {
         this.userRepository = userRepository;
         this.adviceRepository = adviceRepository;
         this.modelMapper = modelMapper;
+        this.logService = logService;
     }
 
     public UserProfileEditResponse getUserInfoForEditing(Integer id) throws ChangeSetPersister.NotFoundException {
         UserEntity entity = userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+
+        logService.log("User with id " + id + " requested info for editing");
 
         return modelMapper.map(entity, UserProfileEditResponse.class);
     }
@@ -52,6 +56,8 @@ public class UserService {
             throw new RuntimeException(e);
         }
 
+        logService.log("User with id " + id + " updated info");
+
         userRepository.saveAndFlush(entity);
     }
 
@@ -66,11 +72,15 @@ public class UserService {
         else {
             throw new BadRequestException("Incorrect old password");
         }
+        logService.log("User with id " + id + " changed password");
+
     }
 
 
     public void askForAdvice(AdviceRequest request) {
         AdviceEntity entity = modelMapper.map(request, AdviceEntity.class);
+
+        logService.log("User with id " + request.getIdUser() + " asked for consulting");
 
         adviceRepository.save(entity);
     }

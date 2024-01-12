@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import qu4lizz.ip.fitness.server.models.dto.ProgramAttributeCreateDTO;
 import qu4lizz.ip.fitness.server.models.entities.*;
 import qu4lizz.ip.fitness.server.models.requests.BuyProgramRequest;
 import qu4lizz.ip.fitness.server.models.requests.CommentRequest;
@@ -21,23 +22,28 @@ import qu4lizz.ip.fitness.server.repositories.*;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProgramService {
     private final ProgramRepository repository;
     private final UserRepository userRepository;
     private final ProgramImageRepository programImageRepository;
+    private final ProgramHasAttributesRepository programHasAttributesRepository ;
     private final CommentRepository commentRepository;
     private final ParticipationRepository participationRepository;
     private final ModelMapper modelMapper;
+    private final LogService logService;
 
-    public ProgramService(ProgramRepository repository, UserRepository userRepository, ProgramImageRepository programImageRepository, CommentRepository commentRepository, ParticipationRepository participationRepository, ModelMapper mapper) {
+    public ProgramService(ProgramRepository repository, UserRepository userRepository, ProgramImageRepository programImageRepository, ProgramHasAttributesRepository programHasAttributesRepository, CommentRepository commentRepository, ParticipationRepository participationRepository, ModelMapper mapper, LogService logService) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.programImageRepository = programImageRepository;
+        this.programHasAttributesRepository = programHasAttributesRepository;
         this.commentRepository = commentRepository;
         this.participationRepository = participationRepository;
         this.modelMapper = mapper;
+        this.logService = logService;
     }
 
     public Page<ProgramDataViewResponse> findAll(String idCategory, String idDifficulty, Pageable page) {
@@ -45,6 +51,7 @@ public class ProgramService {
                 findByCriteria(null, null, idCategory != null ? Integer.parseInt(idCategory) : null,
                         idDifficulty != null ? Integer.parseInt(idDifficulty) : null, Instant.now(), false), page);
 
+        logService.log("Fetching all programs");
         return resultPage.map(e -> modelMapper.map(e, ProgramDataViewResponse.class));
     }
 
@@ -54,6 +61,8 @@ public class ProgramService {
         Page<ProgramEntity> resultPage = repository.findAll(
                 findByCriteria(null, idUser, idCategory != null ? Integer.parseInt(idCategory) : null,
                         idDifficulty != null ? Integer.parseInt(idDifficulty) : null, dateFilter ? Instant.now() : null, "completed".equals(dateStatus)), page);
+
+        logService.log("Fetching all programs created by user with id " + idUser);
 
         return resultPage.map(e -> modelMapper.map(e, ProgramDataViewResponse.class));
     }
@@ -69,12 +78,15 @@ public class ProgramService {
                 findByCriteria(programIds, null, idCategory != null ? Integer.parseInt(idCategory) : null,
                         idDifficulty != null ? Integer.parseInt(idDifficulty) : null, dateFilter ? Instant.now() : null, "completed".equals(dateStatus)), page);
 
+        logService.log("Fetching all programs where user with id participates " + idUser);
+
         return resultPage.map(e -> modelMapper.map(e, ProgramDataViewResponse.class));
     }
 
     public ProgramDetailsResponse findById(Integer id) throws ChangeSetPersister.NotFoundException {
         ProgramEntity entity = repository.findByIdAndActive(id, true).orElseThrow(ChangeSetPersister.NotFoundException::new);
 
+        logService.log("Fetching program with id " + id);
         return modelMapper.map(entity, ProgramDetailsResponse.class);
     }
 
@@ -117,7 +129,10 @@ public class ProgramService {
 
         ProgramEntity savedProgram = repository.save(programEntity);
 
+        logService.log("Creating new program named '" + programRequest.getName() + "'");
+
         saveProgramImages(savedProgram.getId(), programRequest.getProgramImages());
+        saveProgramAttributes(programRequest.getAttributes(), savedProgram.getId());
     }
 
     private void saveProgramImages(Integer programId, MultipartFile[] images) {
@@ -133,10 +148,20 @@ public class ProgramService {
         }
     }
 
+    private void saveProgramAttributes(Map<Integer, String> attributes, Integer idProgram) {
+        for (var entry : attributes.entrySet()) {
+            ProgramHasAttributesEntity entity = modelMapper.map(new ProgramAttributeCreateDTO(entry.getKey(), entry.getValue(), idProgram), ProgramHasAttributesEntity.class);
+
+            programHasAttributesRepository.save(entity);
+        }
+    }
+
     public void delete(Integer id) throws ChangeSetPersister.NotFoundException {
         ProgramEntity programEntity = repository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
 
         programEntity.setActive(false);
+
+        logService.log("Deleting program with id " + id);
 
         repository.save(programEntity);
     }
@@ -145,6 +170,8 @@ public class ProgramService {
         repository.findById(commentRequest.getIdProgram()).orElseThrow(ChangeSetPersister.NotFoundException::new);
 
         UserCommentProgramEntity commentEntity = modelMapper.map(commentRequest, UserCommentProgramEntity.class);
+
+        logService.log("User with id " + commentRequest.getIdUser() + " commented on program with id " + commentRequest.getIdProgram());
 
         commentRepository.save(commentEntity);
     }
@@ -157,6 +184,8 @@ public class ProgramService {
             throw new BadRequestException("Already participating");
 
         UserParticipatesProgramEntity entity = modelMapper.map(request, UserParticipatesProgramEntity.class);
+
+        logService.log("User with id " + request.getIdUser() + " bought program with id " + request.getIdProgram());
 
         participationRepository.save(entity);
     }

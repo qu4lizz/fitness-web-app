@@ -47,9 +47,19 @@
                     <label for="float-label-d">Select a Difficulty</label>
                 </span>
                 <span class="p-float-label">
-                    <p-dropdown [options]="categories" [style]="{'width':'20rem'}" formControlName="idCategory" placeholder="Category" optionLabel="name" optionValue="id" inputId="float-label-c"></p-dropdown>
+                    <p-dropdown [options]="categories" [style]="{'width':'20rem'}" formControlName="idCategory" placeholder="Category" optionLabel="name" optionValue="id" inputId="float-label-c" (onChange)="onCategorySelect($event)"></p-dropdown>
                     <label for="float-label-c">Select a Category</label>
                 </span>
+            </div>
+            <div class="attributes-div">
+                @if (attributes) {
+                    @for (attribute of attributes; track attribute.id) {
+                        <div class="p-float-label">
+                            <input pInputText [formControlName]="attribute.id" class="input" [id]="attribute.id" />
+                            <label>{{ attribute.name }}</label>
+                        </div>
+                    }
+                }
             </div>
             <p-fileUpload mode="basic" accept="image/*" (onSelect)="onImageSelect($event)" [multiple]="true" chooseLabel="Program images"></p-fileUpload>
 
