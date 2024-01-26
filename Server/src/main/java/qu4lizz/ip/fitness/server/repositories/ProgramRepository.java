@@ -13,4 +13,6 @@ public interface ProgramRepository extends JpaRepository<ProgramEntity, Integer>
     Page<ProgramEntity> findAll(Specification<ProgramEntity> spec, Pageable pageable);
 
     Optional<ProgramEntity> findByIdAndActive(Integer id, Boolean active);
+
+    Integer deleteAllByNameIsNull();
 }

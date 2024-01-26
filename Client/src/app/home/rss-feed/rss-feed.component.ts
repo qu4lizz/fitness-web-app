@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import Parser from 'rss-parser';
+import { RssService } from '../services/rss.service';
 
 @Component({
   selector: 'app-rss-feed',
@@ -8,20 +8,20 @@ import Parser from 'rss-parser';
   styleUrl: './rss-feed.component.css',
 })
 export class RssFeedComponent implements OnInit {
-  private RSS_URL: string = 'http://localhost:9000/api/rss';
   private parser: Parser = new Parser();
   public feed: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private rssService: RssService) {}
 
   ngOnInit(): void {
-    this.http.get(this.RSS_URL).subscribe((data: any) => {
-      if (data) {
-        this.parser.parseString(data.value).then((res) => {
+    this.rssService.getRSS().subscribe({
+      error: (err: any) => console.log(err),
+      next: (res: any) => {
+        this.parser.parseString(res.value).then((res) => {
           this.feed = res;
-          //console.log(res);
+          console.log(this.feed);
         });
-      }
+      },
     });
   }
 }
