@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivityService } from '../services/activity.service';
 import { SessionService } from '../../auth/services/session.service';
 import { MessageService } from 'primeng/api';
@@ -29,12 +29,11 @@ export class ActivitiesComponent implements OnInit {
     private sessionService: SessionService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
-    public utilFunctions: UtilFunctions
+    public utilFunctions: UtilFunctions,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    const uid: any = this.sessionService.getUID();
-
     this.form = this.formBuilder.group({
       exerciseType: [null, Validators.required],
       duration: [null, Validators.required],
@@ -44,10 +43,15 @@ export class ActivitiesComponent implements OnInit {
       idUser: this.sessionService.getUID(),
     });
 
+    this.initActivities(this.sessionService.getUID()!);
+  }
+
+  initActivities(uid: number) {
     this.activityService.getActivitiesOfUser(uid).subscribe({
       next: (res: any) => {
-        console.log(res);
         this.activities = res;
+        this.labels = [];
+        this.dataChart = [];
 
         this.activities.forEach((a: any) => {
           this.labels.push(this.utilFunctions.formatDateWithDay(a.timestamp));
@@ -55,6 +59,7 @@ export class ActivitiesComponent implements OnInit {
         });
 
         this.initChart();
+        this.changeDetectorRef.detectChanges();
       },
       error: (err: any) => console.log(err),
     });
@@ -135,18 +140,18 @@ export class ActivitiesComponent implements OnInit {
           console.log(err);
           this.messageService.add({
             severity: 'error',
-            summary: 'Adding New Activiry Error',
+            summary: 'Adding New Activity Error',
             detail: 'Activity could not be added',
           });
         },
         complete: () => {
-          window.location.reload();
+          this.initActivities(this.sessionService.getUID()!);
         },
       });
     } else {
       this.messageService.add({
         severity: 'error',
-        summary: 'Adding New Activiry Error',
+        summary: 'Adding New Activity Error',
         detail: 'Form is not valid',
       });
     }
