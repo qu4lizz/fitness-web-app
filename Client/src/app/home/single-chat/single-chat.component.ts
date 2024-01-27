@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -27,7 +28,8 @@ export class SingleChatComponent implements OnInit {
     private sessionService: SessionService,
     private chatService: ChatService,
     public utilFunctions: UtilFunctions,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +44,6 @@ export class SingleChatComponent implements OnInit {
 
       this.chatService.getSingleChat(this.chatId).subscribe({
         next: (res: any) => {
-          console.log(res);
           this.chat = res;
           if (this.chat.userOne.id === loggedUserId) {
             this.loggedUser = this.chat.userOne;
@@ -51,6 +52,7 @@ export class SingleChatComponent implements OnInit {
             this.loggedUser = this.chat.userTwo;
             this.otherUser = this.chat.userOne;
           }
+          this.changeDetectorRef.detectChanges();
         },
         error: (err: any) => {
           console.log(err);
@@ -73,7 +75,9 @@ export class SingleChatComponent implements OnInit {
 
     this.chatService.sendMessage(obj).subscribe({
       error: (err: any) => console.log(err),
-      complete: () => window.location.reload(),
+      complete: () => {
+        this.refreshChat();
+      },
     });
 
     this.message.nativeElement.value = '';
