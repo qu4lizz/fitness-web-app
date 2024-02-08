@@ -10,6 +10,7 @@ import { UtilFunctions } from '../../utils/functions';
 import { MessageService } from 'primeng/api';
 import { ParticipationPaymentModalComponent } from '../participation-payment-modal/participation-payment-modal.component';
 import { ChatService } from '../services/chat.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-program-details',
@@ -41,7 +42,8 @@ export class ProgramDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private chatService: ChatService,
-    private router: Router
+    private router: Router,
+    protected _sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -122,6 +124,10 @@ export class ProgramDetailsComponent implements OnInit {
       });
   }
 
+  transform(url: string) {
+    return this._sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
   submitComment(text: string) {
     if (!text || text.trim().length == 0) {
       this.messageService.add({
@@ -157,9 +163,10 @@ export class ProgramDetailsComponent implements OnInit {
 
   canShowVideoURL(program: ProgramDetails) {
     if (
-      program.videoUrl &&
-      new Date(program.start) < new Date() &&
-      this.loggedUserParticipates
+      this.isOwner ||
+      (program.videoUrl &&
+        new Date(program.start) < new Date() &&
+        this.loggedUserParticipates)
     ) {
       return true;
     }
