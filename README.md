@@ -6,7 +6,7 @@ A web project consisted of four applications that is used for creating, buying a
 This web project comprises four applications designed for creating, purchasing, and participating in fitness programs, tracking progress, and receiving recommendations for training programs.
 
 ## Warning
-Please note that security was not prioritized in this project. If you're interested in viewing a secure web application, check out the <a href="TODO">Forum application</a>.
+Please note that security was not prioritized in this project. If you're interested in viewing a secure web application, check out the <a href="https://github.com/qu4lizz/forum">Forum application</a>.
 
 ## Technologies
 
@@ -19,7 +19,7 @@ Please note that security was not prioritized in this project. If you're interes
 </ul>
 
 
-## Applications description
+## Applications Descriptions
 
 ### Client (Angular)
 <p>
